@@ -41,6 +41,17 @@ function readable_date(str) {
     return '<span data-toggle="tooltip" data-placement="top" title="' + str + '">' + date.getDate() + ' ' + months[date.getMonth()] + ', ' + date.getFullYear() + '</span>';
 }
 
+function get_permission_level(name) {
+    if (name.endsWith(".list")) {
+        return "List";
+    } else if (name.endsWith(".get")) {
+        return "Read";
+    } else if (name.endsWith(".create") || name.endsWith(".update")) {
+        return "Write";
+    }
+    return "Unknown";
+}
+
 function addcomma(val) {
     return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
@@ -242,12 +253,13 @@ async function processReferencePage() {
         if (permission_name.startsWith(window.location.pathname.replace("/iam/", ""))) {
             iam_count += 1;
             let access_class = "tx-success";
-            /*if (["Write", "Permissions management"].includes(privilege['access_level'])) {
+            let permission_level = get_permission_level(permission_name);
+            if (["Write", "Permissions management"].includes(permission_level)) {
                 access_class = "tx-pink";
             }
-            if (["Unknown"].includes(privilege['access_level'])) {
+            if (["Unknown"].includes(permission_level)) {
                 access_class = "tx-color-03";
-            }*/
+            }
 
             //let used_by = await getUsedBy(service['prefix'] + ':' + privilege['privilege'], sdk_map);
             let used_by = "<i>Coming soon...</i>";
@@ -269,7 +281,7 @@ async function processReferencePage() {
                 <td class="tx-medium"><span class="tx-color-03">' + parts.shift() + '.</span>' + parts.join(".") + '</td>\
                 <td class="tx-normal">' + permission_name + '</td>\
                 <td class="tx-medium">' + used_by + '</td>\
-                <td class="' + access_class + '">' + "TBC" + '</td>\
+                <td class="' + access_class + '">' + permission_level + '</td>\
                 <td class="tx-medium">' + predefined_roles.join("<br />") + '</td>\
             </tr>';
         }
