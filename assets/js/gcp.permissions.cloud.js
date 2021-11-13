@@ -42,15 +42,11 @@ function readable_date(str) {
 }
 
 function get_permission_level(name) {
-    if (name.endsWith(".list")) {
+    if (name.match(/\.list[a-zA-Z0-9]*$/g)) {
         return "List";
-    } else if (name.endsWith(".get")) {
-        return "Read";
-    } else if (name.endsWith(".create") || name.endsWith(".update") || name.endsWith(".delete")) {
-        return "Write";
     } else if (name.match(/\.get[a-zA-Z0-9]*$/g)) {
         return "Read";
-    } else if (name.match(/\.set[a-zA-Z0-9]*$/g)) {
+    } else if (name.match(/\.(?:set|create|update|delete|cancel)[a-zA-Z0-9]*$/g)) {
         return "Write";
     }
     return "Unknown";
