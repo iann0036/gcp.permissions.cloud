@@ -262,9 +262,11 @@ async function processReferencePage() {
                 privilege['description'] += ".";
             }
             */
+
+            let parts = permission_name.split(".");
             
             actions_table_content += '<tr id="' + permission_name + '">\
-                <td class="tx-medium"><span class="tx-color-03">' + "TBC" + ':</span>' + "TBC" + '</td>\
+                <td class="tx-medium"><span class="tx-color-03">' + parts.shift() + '.</span>' + parts.join(".") + '</td>\
                 <td class="tx-normal">' + permission_name + '</td>\
                 <td class="tx-medium">' + used_by + '</td>\
                 <td class="' + access_class + '">' + "TBC" + '</td>\
