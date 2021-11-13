@@ -252,7 +252,7 @@ async function processReferencePage() {
     let actions_table_content = '';
     let iam_count = 0;
     for (let permission_name of Object.keys(permissions)) {
-        if (permission_name.startsWith(window.location.pathname.replace("/iam/", ""))) {
+        if (permission_name.startsWith(window.location.pathname.replace("/iam/", "") || permission_name.startsWith(window.location.pathname.replace("/api/", ""))) {
             iam_count += 1;
             let access_class = "tx-success";
             let permission_level = get_permission_level(permission_name);
