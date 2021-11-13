@@ -250,6 +250,11 @@ async function processReferencePage() {
             //let used_by = await getUsedBy(service['prefix'] + ':' + privilege['privilege'], sdk_map);
             let used_by = "<i>Coming soon...</i>";
 
+            let predefined_roles = [];
+            for (let predefined_role of permissions[permission_name]) {
+                predefined_roles.push(predefined_role['name'] + " <span class=\"tx-color-03\">(" + predefined_role['id'] + ")</span>");
+            }
+
             /*
             if (privilege['description'].substr(privilege['description'].length-1) != "." && privilege['description'].length > 1) {
                 privilege['description'] += ".";
@@ -261,7 +266,7 @@ async function processReferencePage() {
                 <td class="tx-normal">' + permission_name + '</td>\
                 <td class="tx-medium">' + used_by + '</td>\
                 <td class="' + access_class + '">' + "TBC" + '</td>\
-                <td class="tx-medium">' + "TBC" + '</td>\
+                <td class="tx-medium">' + predefined_roles.join("<br />") + '</td>\
             </tr>';
         }
     }
