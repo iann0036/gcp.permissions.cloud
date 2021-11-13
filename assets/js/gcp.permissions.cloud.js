@@ -72,7 +72,7 @@ async function processReferencePage() {
     let methods_raw_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/methods.json');
     let methods_raw = await methods_raw_data.json();
     let methods = [];
-    for (let k of methods_raw.keys()) {
+    for (let k of Object.keys(methods_raw)) {
         methods_raw[k]['id'] = k;
         methods.push(methods_raw[k]);
     }
@@ -293,7 +293,7 @@ async function processReferencePage() {
     // api
     let method_table_content = '';
     let api_count = 0;
-    for (let method_name of api['methods'].keys()) {
+    for (let method_name of Object.keys(api['methods'])) {
         let method = api['methods'][method_name];
 
         method_name_parts = method_name.split(".");
