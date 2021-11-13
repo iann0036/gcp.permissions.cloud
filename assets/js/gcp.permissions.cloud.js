@@ -237,47 +237,31 @@ async function processReferencePage() {
     });
     
     let actions_table_content = '';
-    for (let privilege of service['privileges']) {
-        let first_resource_type = privilege['resource_types'].shift();
-
-        let condition_keys = [];
-        for (let condition_key of first_resource_type['condition_keys']) {
-            condition_keys.push('<a target="_blank" href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_' + service['service_name'].replace(/ /g, "").toLowerCase() + '.html#' + service['service_name'].replace(/ /g, "").toLowerCase() + '-policy-keys">' + condition_key + '</a>');
-        }
-
-        let rowspan = privilege['resource_types'].length + 1;
-        let access_class = "tx-success";
-        if (["Write", "Permissions management"].includes(privilege['access_level'])) {
-            access_class = "tx-pink";
-        }
-        if (["Unknown"].includes(privilege['access_level'])) {
-            access_class = "tx-color-03";
-        }
-
-        let used_by = await getUsedBy(service['prefix'] + ':' + privilege['privilege'], sdk_map);
-
-        if (privilege['description'].substr(privilege['description'].length-1) != "." && privilege['description'].length > 1) {
-            privilege['description'] += ".";
-        }
-        
-        actions_table_content += '<tr id="' + service['prefix'] + '-' + privilege['privilege'] + '">\
-            <td rowspan="' + rowspan + '" class="tx-medium"><span class="tx-color-03">' + service['prefix'] + ':</span>' + privilege['privilege'] + (privilege['access_level'] == "Unknown" ? ' <span class="badge badge-danger">undocumented</span>' : '') + '</td>\
-            <td rowspan="' + rowspan + '" class="tx-normal">' + privilege['description'] + '</td>\
-            <td rowspan="' + rowspan + '" class="tx-medium">' + used_by + '</td>\
-            <td rowspan="' + rowspan + '" class="' + access_class + '">' + privilege['access_level'] + '</td>\
-            <td class="tx-medium">' + expand_resource_type(service, first_resource_type['resource_type']) + '</td>\
-            <td class="tx-medium">' + condition_keys.join("<br />") + '</td>\
-        </tr>';
-
-        for (let resource_type of privilege['resource_types']) {
-            let condition_keys = [];
-            for (let condition_key of resource_type['condition_keys']) {
-                condition_keys.push('<a target="_blank" href="https://docs.aws.amazon.com/service-authorization/latest/reference/list_' + service['service_name'].replace(/ /g, "").toLowerCase() + '.html#' + service['service_name'].replace(/ /g, "").toLowerCase() + '-policy-keys">' + condition_key + '</a>');
+    for (let permission_name of permissions.keys()) {
+        if (permission_name.startsWith(window.location.pathname.replace("/iam/", ""))) {
+            let access_class = "tx-success";
+            /*if (["Write", "Permissions management"].includes(privilege['access_level'])) {
+                access_class = "tx-pink";
             }
+            if (["Unknown"].includes(privilege['access_level'])) {
+                access_class = "tx-color-03";
+            }*/
 
-            actions_table_content += '<tr>\
-                <td class="tx-medium" style="padding-left: 10px !important;">' + expand_resource_type(service, resource_type['resource_type']) + '</td>\
-                <td class="tx-medium">' + condition_keys.join("<br />") + '</td>\
+            //let used_by = await getUsedBy(service['prefix'] + ':' + privilege['privilege'], sdk_map);
+            let used_by = "<i>Coming soon...</i>";
+
+            /*
+            if (privilege['description'].substr(privilege['description'].length-1) != "." && privilege['description'].length > 1) {
+                privilege['description'] += ".";
+            }
+            */
+            
+            actions_table_content += '<tr id="' + permission_name + '">\
+                <td class="tx-medium"><span class="tx-color-03">' + "TBC" + ':</span>' + "TBC" + (privilege['access_level'] == "Unknown" ? ' <span class="badge badge-danger">undocumented</span>' : '') + '</td>\
+                <td class="tx-normal">' + permission_name + '</td>\
+                <td class="tx-medium">' + used_by + '</td>\
+                <td class="' + access_class + '">' + "TBC" + '</td>\
+                <td class="tx-medium">' + "TBC" + '</td>\
             </tr>';
         }
     }
