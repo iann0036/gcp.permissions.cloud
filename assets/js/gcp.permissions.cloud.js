@@ -68,6 +68,8 @@ async function processReferencePage() {
 
     $('#actions-table tbody').html('');
 
+    apilist.sort((a, b) => a['title'] < b['title'] ? -1 : 1)
+
     if ($('#reference-list').html() == "") {
         for (let apiitem of apilist) {
             if (apiitem['preferred']) {
