@@ -73,11 +73,11 @@ async function processReferencePage() {
     if ($('#reference-list').html() == "") {
         for (let apiitem of apilist) {
             if (apiitem['preferred']) {
-                if (window.location.pathname == "/iam/" + apiitem['prefix']) {
+                if (window.location.pathname == "/iam/" + apiitem['name']) {
                     api = apiitem;
 
                     $('#reference-list').append('<li class="nav-item active"><a href="/iam/' + apiitem['name'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
-                } else if (window.location.pathname == "/api/" + apiitem['prefix']) {
+                } else if (window.location.pathname == "/api/" + apiitem['name']) {
                     api = apiitem;
 
                     $('#reference-list').append('<li class="nav-item active"><a href="/api/' + apiitem['name'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
