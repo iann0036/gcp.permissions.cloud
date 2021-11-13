@@ -279,7 +279,6 @@ async function processReferencePage() {
             
             actions_table_content += '<tr id="' + permission_name + '">\
                 <td class="tx-medium"><span class="tx-color-03">' + parts.shift() + '.</span>' + parts.join(".") + '</td>\
-                <td class="tx-normal">' + permission_name + '</td>\
                 <td class="tx-medium">' + used_by + '</td>\
                 <td class="' + access_class + '">' + permission_level + '</td>\
                 <td class="tx-medium">' + predefined_roles.join("<br />") + '</td>\
