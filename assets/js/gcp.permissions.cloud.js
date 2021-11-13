@@ -58,35 +58,30 @@ function getQueryVariable(variable) {
 }
 
 async function processReferencePage() {
-    const iam_def_data = await fetch('https://iann0036.github.io/iam-dataset/iam_definition.json');
-    var iam_def = await iam_def_data.json();
-    const iam_def_duplicate = JSON.parse(JSON.stringify(iam_def));
-    let service = iam_def[0];
+    let apilist_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/google-api-go-client/api-list.json');
+    let apilist = await apilist_data.json()['items'];
 
-    let sdk_map_data = await fetch('https://iann0036.github.io/iam-dataset/map.json');
-    let sdk_map = await sdk_map_data.json();
-
-    let docs_data = await fetch('https://iann0036.github.io/iam-dataset/docs.json');
-    let docs = await docs_data.json();
+    let permissions_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/permissions.json');
+    let permissions = await permissions_data.json();
 
     $('#actions-table tbody').html('');
 
-    iam_def.sort((a, b) => a['service_name'].replace("Amazon ", "").replace("AWS ", "") < b['service_name'].replace("Amazon ", "").replace("AWS ", "") ? -1 : 1)
-    
     if ($('#reference-list').html() == "") {
-        for (let service_def of iam_def) {
-            if (window.location.pathname == "/iam/" + service_def['prefix']) {
-                service = service_def;
+        for (let apiitem of apilist) {
+            if (apiitem['preferred']) {
+                if (window.location.pathname == "/iam/" + service_def['prefix']) {
+                    api = apiitem;
 
-                $('#reference-list').append('<li class="nav-item active"><a href="/iam/' + service_def['prefix'] + '" class="nav-link"><span>' + service_def['service_name'] + '</span></a></li>');
-            } else if (window.location.pathname == "/api/" + service_def['prefix']) {
-                service = service_def;
+                    $('#reference-list').append('<li class="nav-item active"><a href="/iam/' + service_def['name'] + '" class="nav-link"><span>' + service_def['title'].replace(/ API$/, "") + '</span></a></li>');
+                } else if (window.location.pathname == "/api/" + service_def['prefix']) {
+                    api = apiitem;
 
-                $('#reference-list').append('<li class="nav-item active"><a href="/api/' + service_def['prefix'] + '" class="nav-link"><span>' + service_def['service_name'] + '</span></a></li>');
-            } else if (window.location.pathname.startsWith("/api/")) {
-                $('#reference-list').append('<li class="nav-item"><a href="/api/' + service_def['prefix'] + '" class="nav-link"><span>' + service_def['service_name'] + '</span></a></li>');
-            } else {
-                $('#reference-list').append('<li class="nav-item"><a href="/iam/' + service_def['prefix'] + '" class="nav-link"><span>' + service_def['service_name'] + '</span></a></li>');
+                    $('#reference-list').append('<li class="nav-item active"><a href="/api/' + service_def['name'] + '" class="nav-link"><span>' + service_def['title'].replace(/ API$/, "") + '</span></a></li>');
+                } else if (window.location.pathname.startsWith("/api/")) {
+                    $('#reference-list').append('<li class="nav-item"><a href="/api/' + service_def['name'] + '" class="nav-link"><span>' + service_def['title'].replace(/ API$/, "") + '</span></a></li>');
+                } else {
+                    $('#reference-list').append('<li class="nav-item"><a href="/iam/' + service_def['name'] + '" class="nav-link"><span>' + service_def['title'].replace(/ API$/, "") + '</span></a></li>');
+                }
             }
         }
     }
