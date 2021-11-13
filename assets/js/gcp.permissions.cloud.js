@@ -72,7 +72,7 @@ async function processReferencePage() {
     let methods_raw_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/methods.json');
     let methods_raw = await methods_raw_data.json();
     let methods = [];
-    for (let k of methods_raw) {
+    for (let k of methods_raw.keys()) {
         methods_raw[k]['id'] = k;
         methods.push(methods_raw[k]);
     }
