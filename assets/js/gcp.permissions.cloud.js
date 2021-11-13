@@ -59,7 +59,8 @@ function getQueryVariable(variable) {
 
 async function processReferencePage() {
     let apilist_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/google-api-go-client/api-list.json');
-    let apilist = await apilist_data.json()['items'];
+    let apilist = await apilist_data.json();
+    apilist = apilist['items'];
 
     let permissions_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/permissions.json');
     let permissions = await permissions_data.json();
