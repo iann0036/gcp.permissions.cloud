@@ -68,7 +68,7 @@ async function processReferencePage() {
 
     $('#actions-table tbody').html('');
 
-    apilist.sort((a, b) => a['title'].lower() < b['title'].lower() ? -1 : 1)
+    apilist.sort((a, b) => a['title'].toLowerCase() < b['title'].toLowerCase() ? -1 : 1)
 
     if ($('#reference-list').html() == "") {
         for (let apiitem of apilist) {
