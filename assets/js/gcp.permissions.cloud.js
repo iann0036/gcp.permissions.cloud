@@ -44,9 +44,9 @@ function readable_date(str) {
 function get_permission_level(name) {
     if (name.match(/\.list[a-zA-Z0-9]*$/g)) {
         return "List";
-    } else if (name.match(/\.get[a-zA-Z0-9]*$/g)) {
+    } else if (name.match(/\.(?:get|read|select)[a-zA-Z0-9]*$/g)) {
         return "Read";
-    } else if (name.match(/\.(?:set|create|update|delete|cancel)[a-zA-Z0-9]*$/g)) {
+    } else if (name.match(/\.(?:write|set|create|update|delete|cancel)[a-zA-Z0-9]*$/g)) {
         return "Write";
     }
     return "Unknown";
