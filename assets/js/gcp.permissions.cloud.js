@@ -46,7 +46,7 @@ function get_permission_level(name) {
         return "List";
     } else if (name.endsWith(".get")) {
         return "Read";
-    } else if (name.endsWith(".create") || name.endsWith(".update")) {
+    } else if (name.endsWith(".create") || name.endsWith(".update") || name.endsWith(".delete")) {
         return "Write";
     }
     return "Unknown";
