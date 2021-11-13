@@ -237,8 +237,10 @@ async function processReferencePage() {
     });
     
     let actions_table_content = '';
+    let iam_count = 0;
     for (let permission_name of permissions.keys()) {
         if (permission_name.startsWith(window.location.pathname.replace("/iam/", ""))) {
+            iam_count += 1;
             let access_class = "tx-success";
             /*if (["Write", "Permissions management"].includes(privilege['access_level'])) {
                 access_class = "tx-pink";
@@ -271,6 +273,7 @@ async function processReferencePage() {
         }
     }
     $('#actions-table tbody').append(actions_table_content);
+    $('.iam-count').html(iam_count);
 
     // get primary
     let api_prefixes = [];
