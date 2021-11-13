@@ -298,9 +298,9 @@ async function processReferencePage() {
     for (let method_name of Object.keys(api['methods'])) {
         let method = api['methods'][method_name];
 
-        method_name_parts = method_name.split(".");
+        let method_name_parts = method_name.split(".");
 
-        description = method['description'].split(". ")[0];
+        let description = method['description'].split(". ")[0];
         if (!description.endsWith(".")) {
             description += ".";
         }
