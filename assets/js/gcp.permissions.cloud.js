@@ -266,7 +266,7 @@ async function processReferencePage() {
 
             let predefined_roles = [];
             for (let predefined_role of permissions[permission_name]) {
-                predefined_roles.push(predefined_role['name'] + " <span class=\"tx-color-03\">(" + predefined_role['id'] + ")</span>");
+                predefined_roles.push("<a href=\"/predefinedroles/" + predefined_role['id'] + "\">" + predefined_role['name'] + "</a> <span class=\"tx-color-03\">(" + predefined_role['id'] + ")</span>");
             }
 
             /*
