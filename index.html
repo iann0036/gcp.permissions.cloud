@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Twitter -->
+    <meta name="twitter:site" content="@iann0036">
+    <meta name="twitter:creator" content="@iann0036">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="gcp.permissions.cloud">
+    <meta name="twitter:description" content="Permissions Reference for Google Cloud IAM">
+    <meta name="twitter:image" content="https://gcp.permissions.cloud/assets/img/social.png">
+
+    <!-- Facebook -->
+    <meta property="og:url" content="https://gcp.permissions.cloud">
+    <meta property="og:title" content="gcp.permissions.cloud">
+    <meta property="og:description" content="Permissions Reference for Google Cloud IAM">
+
+    <meta property="og:image" content="https://gcp.permissions.cloud/assets/img/social.png">
+    <meta property="og:image:secure_url" content="https://gcp.permissions.cloud/assets/img/social.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="600">
+
+    <!-- Meta -->
+    <meta name="description" content="Permissions Reference for Google Cloud IAM">
+    <meta name="author" content="Ian Mckay (@iann0036)">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/img/logo.png">
+
+    <title>Permissions Reference for Google Cloud IAM | gcp.permissions.cloud</title>
+
+    <link rel="preload" href="https://iann0036.github.io/iam-dataset/map.json" as="fetch" crossorigin>
+    <link rel="preload" href="https://iann0036.github.io/iam-dataset/docs.json" as="fetch" crossorigin>
+    <link rel="preload" href="https://iann0036.github.io/iam-dataset/iam_definition.json" as="fetch" crossorigin>
+
+    <!-- omnibox search -->
+    <link rel="search" href="https://gcp.permissions.cloud/search.xml" type="application/opensearchdescription+xml" title="gcp.permissions.cloud"/>
+
+    <!-- vendor css -->
+    <link href="/lib/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="/lib/ionicons/css/ionicons.min.css" rel="stylesheet">
+    <link href="/lib/jqvmap/jqvmap.min.css" rel="stylesheet">
+    <link href="/lib/prismjs/themes/prism-vs.css" rel="stylesheet">
+
+    <!-- DashForge CSS -->
+    <link rel="stylesheet" href="/assets/css/dashforge.css">
+    <link rel="stylesheet" href="/assets/css/dashforge.dashboard.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/assets/css/custom.css">
+  </head>
+  <body>
+
+    <aside class="aside aside-fixed">
+      <div class="aside-header">
+        <a href="/" class="aside-logo">permissions<img src="/assets/img/logo.svg" style="margin-left: 2px; max-width: 36px; max-height: 36px; margin-top: -4px;" alt=""></a>
+        <a href="" class="aside-menu-link">
+          <i data-feather="menu"></i>
+          <i data-feather="x"></i>
+        </a>
+      </div>
+      <div class="aside-body">
+        <ul class="nav nav-aside">
+          <li class="nav-label">General</li>
+          <li class="nav-item" id="nav-general-dashboard"><a href="/" class="nav-link"><span>Dashboard</span></a></li>
+          <li class="nav-item" id="nav-general-usage"><a href="/usage" class="nav-link"><span>Reference Usage</span></a></li>
+          <li class="nav-item" id="nav-general-managedpolicies"><a href="/managedpolicies" class="nav-link"><span>Managed Policies</span></a></li>
+          <li class="nav-item" id="nav-general-policyevaluator"><a href="/policyevaluator" class="nav-link"><span>Policy Evaluator</span></a></li>
+          <li class="nav-label mg-t-25">Reference</li>
+          <div id="reference-list"></div>
+        </ul>
+      </div>
+    </aside>
+
+    <div class="content ht-100v pd-0">
+      <div class="content-header">
+        <a id="search-nav" href="">
+          <div class="content-search">
+            <i data-feather="search"></i>
+            <p class="tx-color-03" style="margin-top: 1.2rem;">Search...</p>
+          </div>
+        </a>
+
+        <div class="navbar-search">
+          <div class="navbar-search-header">
+            <input type="search" class="form-control" placeholder="Search...">
+            <a id="navbarSearchClose" href="" class="link-03 mg-l-5 mg-lg-l-10"><i data-feather="x"></i></a>
+          </div><!-- navbar-search-header -->
+          <div class="navbar-search-body">
+            <label class="tx-10 tx-medium tx-uppercase tx-spacing-1 tx-color-03 mg-b-5 d-flex align-items-center">IAM Permissions</label>
+            <ul id="search-iam-list" class="list-unstyled" style="flex-wrap: wrap;">
+            </ul>
+
+            <hr class="mg-y-30 bd-0">
+
+            <label class="tx-10 tx-medium tx-uppercase tx-spacing-1 tx-color-03 mg-b-5 d-flex align-items-center">API Methods</label>
+
+            <ul id="search-api-list" class="list-unstyled" style="flex-wrap: wrap;">
+            </ul>
+
+            <hr class="mg-y-30 bd-0">
+
+            <label class="tx-10 tx-medium tx-uppercase tx-spacing-1 tx-color-03 mg-b-5 d-flex align-items-center">Managed Policies</label>
+
+            <ul id="search-managedpolicies-list" class="list-unstyled" style="flex-wrap: wrap;">
+            </ul>
+          </div><!-- navbar-search-body -->
+        </div><!-- navbar-search -->
+
+        <nav class="nav">
+          <a href="/usage" class="nav-link"><i data-feather="help-circle"></i></a>
+        </nav>
+      </div><!-- content-header -->
+
+      <div class="content-body" id="body-permissions" style="display: none;">
+        <div class="container pd-x-0">
+          <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                  <li class="breadcrumb-item"><a href="/">Reference</a></li>
+                  <li class="breadcrumb-item active" aria-current="page"><span class='servicename'></span></li>
+                </ol>
+              </nav>
+              <h4 class="mg-b-0 tx-spacing--1">Permissions Reference for <span class='servicename'></span></h4>
+            </div>
+            <div class="d-none d-md-block">
+              <a id="permissions-json-link" href="https://raw.githubusercontent.com/iann0036/iam-dataset/main/map.json" target="_blank"><button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="download" class="wd-10 mg-r-5"></i> Download JSON</button></a>
+              <button class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5 display-iam api-link" style="display: none;"><i data-feather="code" class="wd-10 mg-r-5"></i> Switch to API</button>
+              <button class="btn btn-sm pd-x-15 btn-primary btn-uppercase mg-l-5 display-api iam-link" style="display: none;"><i data-feather="lock" class="wd-10 mg-r-5"></i> Switch to IAM</button>
+            </div>
+          </div>
+
+          <div class="row row-xs">
+            <div class="col-lg-12 col-xl-12 mg-t-12">
+              <div class="card mg-b-10 display-iam" style="display: none;">
+                <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
+                  <div>
+                    <h6 class="mg-b-5">IAM Actions defined by <span class='servicename'></span></h6>
+                    <p class="tx-13 tx-color-03 mg-b-0">You can specify the following actions in the Action element of an IAM policy statement.</p>
+                  </div>
+                  <div class="d-flex mg-t-20 mg-sm-t-0">
+                    <div class="btn-group flex-fill">
+                      <button class="btn btn-white btn-xs active">IAM</button>
+                      <button class="btn btn-white btn-xs api-link">API</button>
+                    </div>
+                  </div>
+                </div><!-- card-header -->
+                <div class="card-body pd-y-30">
+                  <div class="d-sm-flex">
+                    <div class="media">
+                      <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-teal tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                        <i data-feather="bar-chart-2"></i>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">IAM Actions</h6>
+                        <h4 class="tx-20 tx-sm-18 tx-md-20 tx-normal tx-rubik mg-b-0 iam-count">-</h4>
+                      </div>
+                    </div>
+                    <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40">
+                      <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-primary tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-4">
+                        <i data-feather="bar-chart-2"></i>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">API Methods</h6>
+                        <h4 class="tx-20 tx-sm-18 tx-md-20 tx-normal tx-rubik mg-b-0 api-count">-</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- card-body -->
+                <div class="table-responsive">
+                  <table class="table table-dashboard mg-b-0" id="actions-table">
+                    <thead>
+                      <tr>
+                        <th>Action</th>
+                        <th>Description</th>
+                        <th>Used By</th>
+                        <th>Access Level</th>
+                        <th>Resource Types</th>
+                        <th>Condition Keys</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div><!-- table-responsive -->
+              </div><!-- card -->
+
+
+              <div class="card mg-b-10 display-api" style="display: none;">
+                <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
+                  <div>
+                    <h6 class="mg-b-5">API Methods defined by <span class='servicename'></span></h6>
+                    <p class="tx-13 tx-color-03 mg-b-0">You can use the following methods in the Google Cloud CLI, SDKs or API.</p>
+                  </div>
+                  <div class="d-flex mg-t-20 mg-sm-t-0">
+                    <div class="btn-group flex-fill">
+                      <button class="btn btn-white btn-xs iam-link">IAM</button>
+                      <button class="btn btn-white btn-xs active">API</button>
+                    </div>
+                  </div>
+                </div><!-- card-header -->
+                <div class="card-body pd-y-30">
+                  <div class="d-sm-flex">
+                    <div class="media">
+                      <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-teal tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                        <i data-feather="bar-chart-2"></i>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">IAM Actions</h6>
+                        <h4 class="tx-20 tx-sm-18 tx-md-20 tx-normal tx-rubik mg-b-0 iam-count">-</h4>
+                      </div>
+                    </div>
+                    <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40">
+                      <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-primary tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-4">
+                        <i data-feather="bar-chart-2"></i>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">API Methods</h6>
+                        <h4 class="tx-20 tx-sm-18 tx-md-20 tx-normal tx-rubik mg-b-0 api-count">-</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- card-body -->
+                <div class="table-responsive">
+                  <table class="table table-dashboard mg-b-0" id="methods-table">
+                    <thead>
+                      <tr>
+                        <th>Method</th>
+                        <th>Description</th>
+                        <th>IAM Action</th>
+                        <th>ARN Template&nbsp;&nbsp;<a onclick="swapARN()" style="text-transform: none;" href="#" class="badge badge-secondary"><i class="fas fa-exchange-alt"></i> Show <span id="arn-template-state">Original</span></a></th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div><!-- table-responsive -->
+              </div><!-- card -->
+
+              <div class="card card-body ht-lg-100">
+                <div class="media">
+                  <span class="tx-color-04"><i data-feather="download" class="wd-60 ht-60"></i></span>
+                  <div class="media-body mg-l-20">
+                    <h6 class="mg-b-10">Download the permissions in JSON format.</h6>
+                    <p class="tx-color-03 mg-b-0">Consume the above permissions with your own tooling.</p>
+                  </div>
+                </div><!-- media -->
+              </div>
+            </div><!-- col -->
+          </div><!-- row -->
+        </div><!-- container -->
+      </div>
+
+      <div class="content-body" id="body-dashboard" style="display: none;">
+        <div class="container pd-x-0">
+          <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                  <li class="breadcrumb-item"><a href="/">General</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+                </ol>
+              </nav>
+              <h4 class="mg-b-0 tx-spacing--1">Dashboard</h4>
+            </div>
+          </div>
+
+          <div class="row row-xs" style="display: none;">
+            <div class="col-lg-8 col-xl-7 mg-t-10">
+              <div class="card">
+                <div class="card-header pd-y-20 d-md-flex align-items-center justify-content-between">
+                  <h6 class="mg-b-0">Global AWS Counts</h6>
+                  <ul class="list-inline d-flex mg-t-20 mg-sm-t-10 mg-md-t-0 mg-b-0">
+                    <li class="list-inline-item d-flex align-items-center">
+                      <span class="d-block wd-10 ht-10 bg-df-1 rounded mg-r-5"></span>
+                      <span class="tx-sans tx-uppercase tx-10 tx-medium tx-color-03">API Methods</span>
+                    </li>
+                    <li class="list-inline-item d-flex align-items-center mg-l-5">
+                      <span class="d-block wd-10 ht-10 bg-df-2 rounded mg-r-5"></span>
+                      <span class="tx-sans tx-uppercase tx-10 tx-medium tx-color-03">IAM Permissions</span>
+                    </li>
+                  </ul>
+                </div><!-- card-header -->
+                <div class="card-body pos-relative pd-0">
+                  <div class="pos-absolute t-20 l-20 wd-xl-100p z-index-10">
+                    <div class="row">
+                      <div class="col-sm-5">
+                        <h3 class="tx-normal tx-rubik tx-spacing--2 mg-b-5" id="dashboard-api-total"></h3>
+                        <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-color-02 tx-semibold mg-b-10">API Methods</h6>
+                      </div><!-- col -->
+                      <div class="col-sm-5 mg-t-20 mg-sm-t-0">
+                        <h3 class="tx-normal tx-rubik tx-spacing--2 mg-b-5" id="dashboard-iam-total"></h3>
+                        <h6 class="tx-uppercase tx-11 tx-spacing-1 tx-color-02 tx-semibold mg-b-10">IAM Permissions</h6>
+                      </div><!-- col -->
+                    </div><!-- row -->
+                  </div>
+
+                  <div class="chart-one">
+                    <div id="flotChart" class="flot-chart"></div>
+                  </div><!-- chart-one -->
+                </div><!-- card-body -->
+              </div><!-- card -->
+            </div>
+            <div class="col-lg-4 col-xl-5 mg-t-10">
+              <div class="card">
+                <div class="card-header">
+                  <h6 class="mg-b-0">Permissions by Access Level</h6>
+                </div><!-- card-header -->
+                <div class="card-body pd-lg-25">
+                  <div class="chart-seven"><canvas id="chartDonut"></canvas></div>
+                </div><!-- card-body -->
+                <div class="card-footer pd-20">
+                  <div class="row">
+                    <div class="col-6">
+                      <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 tx-nowrap mg-b-5">List</p>
+                      <div class="d-flex align-items-center">
+                        <div class="wd-10 ht-10 rounded-circle bg-teal mg-r-5"></div>
+                        <h6 class="tx-normal tx-rubik mg-b-0"><span id="dashboard-list-count"></span> <small id="dashboard-list-percent" class="tx-color-04"></small></h6>
+                      </div>
+                    </div><!-- col -->
+                    <div class="col-6">
+                      <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Read</p>
+                      <div class="d-flex align-items-center">
+                        <div class="wd-10 ht-10 rounded-circle bg-primary mg-r-5"></div>
+                        <h6 class="tx-normal tx-rubik mg-b-0"><span id="dashboard-read-count"></span> <small id="dashboard-read-percent" class="tx-color-04"></small></h6>
+                      </div>
+                    </div><!-- col -->
+                    <div class="col-6 mg-t-20">
+                      <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Tagging</p>
+                      <div class="d-flex align-items-center">
+                        <div class="wd-10 ht-10 rounded-circle bg-warning mg-r-5"></div>
+                        <h6 class="tx-normal tx-rubik mg-b-0"><span id="dashboard-tagging-count"></span> <small id="dashboard-tagging-percent" class="tx-color-04"></small></h6>
+                      </div>
+                    </div><!-- col -->
+                    <div class="col-6 mg-t-20">
+                      <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Write</p>
+                      <div class="d-flex align-items-center">
+                        <div class="wd-10 ht-10 rounded-circle bg-orange mg-r-5"></div>
+                        <h6 class="tx-normal tx-rubik mg-b-0"><span id="dashboard-write-count"></span> <small id="dashboard-write-percent" class="tx-color-04"></small></h6>
+                      </div>
+                    </div><!-- col -->
+                    <div class="col-6 mg-t-20">
+                      <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Permissions management</p>
+                      <div class="d-flex align-items-center">
+                        <div class="wd-10 ht-10 rounded-circle bg-pink mg-r-5"></div>
+                        <h6 class="tx-normal tx-rubik mg-b-0"><span id="dashboard-permissionsmanagement-count"></span> <small id="dashboard-permissionsmanagement-percent" class="tx-color-04"></small></h6>
+                      </div>
+                    </div><!-- col -->
+                    <div class="col-6 mg-t-20">
+                      <p class="tx-10 tx-uppercase tx-medium tx-color-03 tx-spacing-1 mg-b-5">Unknown</p>
+                      <div class="d-flex align-items-center">
+                        <div class="wd-10 ht-10 rounded-circle bg-gray-300 mg-r-5"></div>
+                        <h6 class="tx-normal tx-rubik mg-b-0"><span id="dashboard-unknown-count"></span> <small id="dashboard-unknown-percent" class="tx-color-04"></small></h6>
+                      </div>
+                    </div><!-- col -->
+                  </div><!-- row -->
+                </div><!-- card-footer -->
+              </div><!-- card -->
+            </div>
+          </div><!-- row -->
+        </div><!-- container -->
+      </div>
+
+      <div class="content-body" id="body-usage" style="display: none;">
+        <div class="container pd-x-0">
+          <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                  <li class="breadcrumb-item"><a href="/">General</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Reference Usage</li>
+                </ol>
+              </nav>
+              <h4 class="mg-b-0 tx-spacing--1">Reference Usage</h4>
+            </div>
+          </div>
+
+          <div class="row row-xs">
+            <div class="col-lg-12 col-xl-12 mg-t-12">
+              <!--
+              <div class="card card-body">
+                <h4 class="mg-b-10">About permissions.cloud</h4>
+                <p class="mg-b-10">The permissions.cloud website uses a variety of information gathered within the <a target="_blank" href="https://github.com/iann0036/iam-dataset">IAM Dataset</a> and exposes that information in a clean, easy-to-read format.</p>
+                <p class="mg-b-10">permissions.cloud was built in order to provide an alternate, community-driven source of truth for AWS identity. If you would like to contribute to or suggest a feature for this website, please <a target="_blank" href="https://github.com/iann0036/permissions.cloud/issues">raise it</a> in the permissions.cloud <a target="_blank" href="https://github.com/iann0036/permissions.cloud">repo</a>. If you have found a data issue with the IAM permissions or API methods, please <a target="_blank" href="https://github.com/iann0036/iam-dataset/issues">raise it</a> in the IAM Dataset <a target="_blank" href="https://github.com/iann0036/iam-dataset">repo</a>.</p>
+                <p class="mg-b-10">The website can be navigated using the left sidebar or by quickly looking up a specific managed policy, IAM permission or API method in the top search bar.</p>
+
+                <hr class="mg-y-40">
+
+                <h4 class="mg-b-10">Using the Dashboard</h4>
+                <p class="mg-b-10">The dashboard has a small selection of statistics about the global state of IAM permissions and API methods. Some historic IAM permission data is currently missing and as such you may see some unusual jumps in charting.</p>
+
+                <hr class="mg-y-40">
+
+                <h4 class="mg-b-10">Using Managed Policies</h4>
+                <p class="mg-b-10">The managed policies section lists all known <a target="_blank" href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-vs-inline.html#aws-managed-policies">AWS Managed Policies</a> with the ability to view individual policies in-depth. Additional analysis is presented about the effective IAM permissions the policy provides.</p>
+                <p class="mg-b-10">The following table represents the attributes available on either a managed policy or an effective IAM action within it:</p>
+
+                <div class="table-responsive mg-t-25">
+                  <table class="table table-components">
+                    <thead>
+                      <tr>
+                        <th class="wd-40p">Tag</th>
+                        <th class="wd-60p">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span class="badge badge-info">credentials exposure</span></td>
+                        <td>A managed policy or managed policy action tag that indicates the presence of an action that could produce a response that contains credentials.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-info">resource exposure</span></td>
+                        <td>A managed policy or managed policy action tag that indicates the presence of an action that could expose AWS resources to the public.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-warning">unknown actions</span></td>
+                        <td>A managed policy tag indicating that the managed policy contains an action that is not documented in the official <a target="_blank" target="https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html">Service Authorization Reference</a>.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-warning">unknown</span></td>
+                        <td>A managed policy action tag that indicates the action is not documented in the official <a target="_blank" target="https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html">Service Authorization Reference</a>.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-warning">possible privesc</span></td>
+                        <td>A managed policy or managed policy action tag that indicates the presence of an action that could potentially lead to a privilege escalation.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-danger">undocumented actions</span></td>
+                        <td>A managed policy tag that indicates the presence of undocumented actions within the policy.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-danger">malformed</span></td>
+                        <td>A managed policy tag that indicates the presence of a malformed statement within the policy.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-danger">deprecated</span></td>
+                        <td>A managed policy tag that indicates the policy is <a target="_target" href="https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies_managed-deprecated.html">deprecated</a>.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <hr class="mg-y-40">
+
+                <h4 class="mg-b-10">Using IAM Permissions</h4>
+                <p class="mg-b-10">IAM Permissions are available on all service pages. Each IAM permission details its own description, access level, resolved resource type ARN pattern, condition keys, as well as the API methods that are known to consume that permission.</p>
+                <p class="mg-b-10">The following table represents the attributes available on an IAM action:</p>
+
+                <div class="table-responsive mg-t-25">
+                  <table class="table table-components">
+                    <thead>
+                      <tr>
+                        <th class="wd-40p">Tag</th>
+                        <th class="wd-60p">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span class="badge badge-danger">undocumented</span></td>
+                        <td>An IAM permission tag that indicates the permission is not documented in the official <a target="_blank" target="https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html">Service Authorization Reference</a> but has been identified as existing.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-primary">required</span></td>
+                        <td>An IAM permission tag that indicates that the presence of an entry matching the preceeding ARN template is required.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <hr class="mg-y-40">
+
+                <h4 class="mg-b-10">Using API Methods</h4>
+                <p class="mg-b-10">API Methods are available on all service pages. Each API Method details its own description, ARN template format (including special functions), as well as the IAM permissions the action may require. IAM permissions are required unless one of the below tags resolves to non-existance.</p>
+                <p class="mg-b-10">If a variable is not present in the API method request, its value should instead be replaced with an <code>*</code>.</p>
+                <p class="mg-b-10">The following table represents the attributes available on an API method:</p>
+
+                <div class="table-responsive mg-t-25">
+                  <table class="table table-components">
+                    <thead>
+                      <tr>
+                        <th class="wd-40p">Tag</th>
+                        <th class="wd-60p">Description</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td><span class="badge badge-danger">undocumented</span></td>
+                        <td>An API method tag that indicates the method is not documented in the official <a target="_blank" target="https://docs.aws.amazon.com/service-authorization/latest/reference/reference.html">Service Authorization Reference</a> but has been identified as existing and has an associated IAM permission requirement.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-dark">overridden</span></td>
+                        <td>A permission ARN template tag that indicated the preceeding template format was manually constructed, overriding any permission ARN format hints.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-info">if truthy</span> <i>comparison value</i> <span class="badge badge-info">then</span> <i>success value</i> <span class="badge badge-info">otherwise</span> <i>failure value</i></td>
+                        <td>A permission ARN template tag that resolves to the success value when the comparison value exists and is <i>truthy</i>, otherwise resolving to the failure value, or to non-existance when the failure value is not present.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-info">urlencode</span> <i>value</i></td>
+                        <td>A permission ARN template tag that resolves to the URL-encoded version of the specified value.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-info">if ARN matches format</span> <i>value</i></td>
+                        <td>A permission ARN template tag that resolves to the value if the value matches the ARN format hints, otherwise to non-existance.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-info">for the property</span> <i>value</i> <span class="badge badge-info">get first match of the regex pattern</span> <i>regex pattern</i></td>
+                        <td>A permission ARN template tag that resolves to the first Regex match of the value given the provided pattern, or to non-existance where a first match is not found.</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+              -->
+            </div><!-- col -->
+          </div><!-- row -->
+        </div><!-- container -->
+      </div>
+
+      <div class="content-body" id="body-managedpolicies" style="display: none;">
+        <div class="container pd-x-0">
+          <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                  <li class="breadcrumb-item"><a href="/">General</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Managed Policies</li>
+                </ol>
+              </nav>
+              <h4 class="mg-b-0 tx-spacing--1">Managed Policies</h4>
+            </div>
+            <div class="d-none d-md-block">
+              <a href="https://raw.githubusercontent.com/iann0036/iam-dataset/main/managed_policies.json" target="_blank"><button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="download" class="wd-10 mg-r-5"></i> Download JSON</button></a>
+            </div>
+          </div>
+
+          <div class="row row-xs">
+            <div class="col-lg-12 col-xl-12 mg-t-12">
+              <div class="card mg-b-10">
+                <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
+                  <div>
+                    <h6 class="mg-b-5">AWS Managed Policies</span></h6>
+                    <p class="tx-13 tx-color-03 mg-b-0">Below is a list of AWS Managed Policies.</p>
+                  </div>
+                </div><!-- card-header -->
+                <div class="card-body pd-y-30">
+                  <div class="d-sm-flex">
+                    <div class="media">
+                      <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-indigo tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-6">
+                        <i data-feather="bar-chart-2"></i>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Active Managed Policies</h6>
+                        <h4 class="tx-20 tx-sm-18 tx-md-20 tx-normal tx-rubik mg-b-0 active-managedpolicies-count">-</h4>
+                      </div>
+                    </div>
+                    <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40">
+                      <div class="wd-40 wd-md-50 ht-40 ht-md-50 bg-danger tx-white mg-r-10 mg-md-r-10 d-flex align-items-center justify-content-center rounded op-4">
+                        <i data-feather="bar-chart-2"></i>
+                      </div>
+                      <div class="media-body">
+                        <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">Deprecated Managed Policies</h6>
+                        <h4 class="tx-20 tx-sm-18 tx-md-20 tx-normal tx-rubik mg-b-0 deprecated-managedpolicies-count">-</h4>
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- card-body -->
+                <div class="table-responsive">
+                  <table class="table table-dashboard mg-b-0" id="managedpolicies-table">
+                    <thead>
+                      <tr>
+                        <th>Name</th>
+                        <th>Access Levels</th>
+                        <th>Current Version</th>
+                        <th>Creation Date</th>
+                        <th>Last Updated</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div><!-- table-responsive -->
+              </div><!-- card -->
+            </div><!-- col -->
+          </div><!-- row -->
+        </div><!-- container -->
+      </div>
+
+      <div class="content-body" id="body-managedpolicy" style="display: none;">
+        <div class="container pd-x-0">
+          <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                  <li class="breadcrumb-item"><a href="/">General</a></li>
+                  <li class="breadcrumb-item"><a href="/managedpolicies">Managed Policies</a></li>
+                  <li class="breadcrumb-item active managedpolicyname" aria-current="page"></li>
+                </ol>
+              </nav>
+              <h4 class="mg-b-0 tx-spacing--1 managedpolicyname"></h4>
+              <span id="managedpolicytags"></span>
+            </div>
+            <div class="d-none d-md-block">
+              <a id="managedpolicy-json-link" target="_blank"><button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="download" class="wd-10 mg-r-5"></i> Download JSON</button></a>
+            </div>
+          </div>
+
+          <div class="row row-xs">
+            <div class="col-lg-12 col-xl-12 mg-t-12">
+              <div class="card mg-b-10">
+                <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
+                  <div>
+                    <h6 class="mg-b-5">Raw Policy</h6>
+                    <p class="tx-13 tx-color-03 mg-b-10">Below is the raw managed policy.</p>
+                  </div>
+                </div><!-- card-header -->
+                <code class="language-css managedpolicyraw mg-t-10 mg-r-10 mg-l-10 mg-b-10" style="overflow: auto;"></code>
+              </div><!-- card -->
+            </div><!-- col -->
+            <div class="col-lg-12 col-xl-12 mg-t-12">
+              <div class="card mg-b-10">
+                <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
+                  <div>
+                    <h6 class="mg-b-5">Effective Actions</h6>
+                    <p class="tx-13 tx-color-03 mg-b-10">Below is a breakdown of the effective actions for the managed policy.</p>
+                  </div>
+                </div><!-- card-header -->
+                <div class="table-responsive">
+                  <table class="table table-dashboard mg-b-0" id="effectivepolicy-table">
+                    <thead>
+                      <tr>
+                        <th>Action</th>
+                        <th>Based On</th>
+                        <th>Access Level</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div><!-- table-responsive -->
+              </div><!-- card -->
+            </div><!-- col -->
+          </div><!-- row -->
+        </div><!-- container -->
+      </div>
+
+      <div class="content-body" id="body-policyevaluator" style="display: none;">
+        <div class="container pd-x-0">
+          <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
+            <div>
+              <nav aria-label="breadcrumb">
+                <ol class="breadcrumb breadcrumb-style1 mg-b-10">
+                  <li class="breadcrumb-item"><a href="/">General</a></li>
+                  <li class="breadcrumb-item active" aria-current="page">Policy Evaluator</li>
+                </ol>
+              </nav>
+              <h4 class="mg-b-0 tx-spacing--1">Policy Evaluator</h4>
+            </div>
+          </div>
+
+          <div class="row row-xs">
+            <div class="col-lg-12 col-xl-12 mg-t-12">
+              <div class="card mg-b-10">
+                <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
+                  <div>
+                    <h6 class="mg-b-5">Custom Policy</h6>
+                    <p class="tx-13 tx-color-03 mg-b-10">Enter your IAM policy in the box below.</p>
+                  </div>
+                </div><!-- card-header -->
+                <textarea class="form-control custompolicy mg-t-10 mg-r-10 mg-l-10 mg-b-10" style="width: auto;" rows="10" placeholder="Enter your policy here..."></textarea>
+              </div><!-- card -->
+            </div><!-- col -->
+            <div class="col-lg-12 col-xl-12 mg-t-12">
+              <div class="card mg-b-10">
+                <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
+                  <div>
+                    <h6 class="mg-b-5">Effective Actions</h6>
+                    <p class="tx-13 tx-color-03 mg-b-10">Below is a breakdown of the effective actions for the policy.</p>
+                  </div>
+                </div><!-- card-header -->
+                <div class="table-responsive">
+                  <table class="table table-dashboard mg-b-0" id="customeffectivepolicy-table">
+                    <thead>
+                      <tr>
+                        <th>Action</th>
+                        <th>Based On</th>
+                        <th>Access Level</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                  </table>
+                </div><!-- table-responsive -->
+              </div><!-- card -->
+            </div><!-- col -->
+          </div><!-- row -->
+        </div><!-- container -->
+      </div>
+    </div>
+
+    <!-- Modal -->
+    <div class="modal fade" id="resourceTypeModal" tabindex="-1" role="dialog" aria-labelledby="resourceTypeModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="resourceTypeModalLabel">API Request Location</h5>
+          </div>
+          <div class="modal-body">
+            <pre id="resourceTypeDisplay"></pre>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/lib/jquery/jquery.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.bundle.js"></script>
+    <script src="/lib/feather-icons/feather.js"></script>
+    <script src="/lib/perfect-scrollbar/perfect-scrollbar.js"></script>
+    <script src="/lib/jquery.flot/jquery.flot.js"></script>
+    <script src="/lib/jquery.flot/jquery.flot.stack.js"></script>
+    <script src="/lib/jquery.flot/jquery.flot.resize.js"></script>
+    <script src="/lib/chart.js/Chart.bundle.js"></script>
+    <script src="/lib/prismjs/prism.js" data-manual></script>
+
+    <script src="/assets/js/dashforge.js"></script>
+    <script src="/assets/js/dashforge.aside.js"></script>
+    <script src="/assets/js/dashforge.sampledata.js"></script>
+
+    <!-- main app -->
+    <script src="/assets/js/gcp.permissions.cloud.js"></script>
+  </body>
+</html>

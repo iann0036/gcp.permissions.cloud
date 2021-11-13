@@ -1,0 +1,18 @@
+.unselectable {
+    -webkit-user-select: none; /* Safari */        
+    -moz-user-select: none; /* Firefox */
+    -ms-user-select: none; /* IE10+/Edge */
+    user-select: none; /* Standard */
+}
+
+.nav-aside {
+    white-space: normal !important;
+}
+
+.navbar-search {
+    z-index: 1200 !important;
+}
+
+.backdrop {
+    z-index: 1100 !important;
+}
