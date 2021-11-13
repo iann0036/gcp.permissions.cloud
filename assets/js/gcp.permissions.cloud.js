@@ -69,9 +69,13 @@ function getQueryVariable(variable) {
 }
 
 async function processReferencePage() {
-    let apilist_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/google-api-go-client/api-list.json');
-    let apilist = await apilist_data.json();
-    apilist = apilist['items'];
+    let methods_raw_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/methods.json');
+    let methods_raw = await methods_raw_data.json();
+    let methods = [];
+    for (let k of methods_raw) {
+        methods_raw[k]['id'] = k;
+        methods.push(methods_raw[k]);
+    }
     let api = null;
 
     let permissions_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/permissions.json');
@@ -79,24 +83,22 @@ async function processReferencePage() {
 
     $('#actions-table tbody').html('');
 
-    apilist.sort((a, b) => a['title'].toLowerCase() < b['title'].toLowerCase() ? -1 : 1)
+    methods.sort((a, b) => a['title'].toLowerCase() < b['title'].toLowerCase() ? -1 : 1)
 
     if ($('#reference-list').html() == "") {
-        for (let apiitem of apilist) {
-            if (apiitem['preferred']) {
-                if (window.location.pathname == "/iam/" + apiitem['name']) {
-                    api = apiitem;
+        for (let apiitem of methods) {
+            if (window.location.pathname == "/iam/" + apiitem['id']) {
+                api = apiitem;
 
-                    $('#reference-list').append('<li class="nav-item active"><a href="/iam/' + apiitem['name'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
-                } else if (window.location.pathname == "/api/" + apiitem['name']) {
-                    api = apiitem;
+                $('#reference-list').append('<li class="nav-item active"><a href="/iam/' + apiitem['id'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
+            } else if (window.location.pathname == "/api/" + apiitem['id']) {
+                api = apiitem;
 
-                    $('#reference-list').append('<li class="nav-item active"><a href="/api/' + apiitem['name'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
-                } else if (window.location.pathname.startsWith("/api/")) {
-                    $('#reference-list').append('<li class="nav-item"><a href="/api/' + apiitem['name'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
-                } else {
-                    $('#reference-list').append('<li class="nav-item"><a href="/iam/' + apiitem['name'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
-                }
+                $('#reference-list').append('<li class="nav-item active"><a href="/api/' + apiitem['id'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
+            } else if (window.location.pathname.startsWith("/api/")) {
+                $('#reference-list').append('<li class="nav-item"><a href="/api/' + apiitem['id'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
+            } else {
+                $('#reference-list').append('<li class="nav-item"><a href="/iam/' + apiitem['id'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
             }
         }
     }
@@ -288,62 +290,29 @@ async function processReferencePage() {
     $('#actions-table tbody').append(actions_table_content);
     $('.iam-count').html(iam_count);
 
-    // get primary
-    let api_prefixes = [];
-    for (let iam_mapping_name of Object.keys(sdk_map['sdk_method_iam_mappings']).sort()) {
-        let first_action = sdk_map['sdk_method_iam_mappings'][iam_mapping_name][0];
-
-        if (first_action['action'].split(":")[0] == service['prefix']) { // TODO: better matching
-            api_prefixes.push(iam_mapping_name.split(".")[0]);
-        }
-    }
-
+    // api
     let method_table_content = '';
     let api_count = 0;
-    for (let iam_mapping_name of Object.keys(sdk_map['sdk_method_iam_mappings']).sort()) {
-        let iam_mapping_name_parts = iam_mapping_name.split(".");
-        if (api_prefixes.includes(iam_mapping_name_parts[0])) {
-            let first_action = sdk_map['sdk_method_iam_mappings'][iam_mapping_name].shift();
+    for (let method_name of api['methods'].keys()) {
+        let method = api['methods'][method_name];
 
-            let rowspan = sdk_map['sdk_method_iam_mappings'][iam_mapping_name].length + 1;
+        method_name_parts = method_name.split(".");
 
-            let actionlink = "/iam/" + first_action['action'].split(":")[0] + "#" + first_action['action'].replace(":", "-");
-            let template = await getTemplates(first_action, iam_def_duplicate);
-            let undocumented = '';
-            if (first_action['undocumented']) {
-                undocumented = ' <span class="badge badge-danger">undocumented</span>';
-            }
+        method_table_content += '<tr id="' + method_name + '">\
+            <td class="tx-medium"><span class="tx-color-03">' + method_name_parts.shift() + '.</span>' + method_name_parts.join(".") + '</td>\
+            <td class="tx-normal">' + method['description'] + '</td>\
+            <td class="tx-medium">' + method['versions'].join(", ") + '</td>\
+            <td class="tx-medium">' + method['method'] + '</td>\
+        </tr>';
 
-            method_table_content += '<tr id="' + iam_mapping_name_parts[0] + '_' + iam_mapping_name_parts[1] + '">\
-                <td rowspan="' + rowspan + '" class="tx-medium"><span class="tx-color-03">' + iam_mapping_name_parts[0] + '.</span>' + iam_mapping_name_parts[1] + '</td>\
-                <td rowspan="' + rowspan + '" class="tx-normal">' + shortDocs(iam_mapping_name, docs) + '</td>\
-                <td class="tx-medium"><a href="' + actionlink + '">' + first_action['action'] + undocumented + '</a></td>\
-                <td class="tx-medium">' + template + '</td>\
-            </tr>';
-
-            for (let action of sdk_map['sdk_method_iam_mappings'][iam_mapping_name]) {
-                let actionlink = "/iam/" + action['action'].split(":")[0] + "#" + action['action'].replace(":", "-");
-                let template = await getTemplates(action, iam_def_duplicate);
-                let undocumented = '';
-                if (action['undocumented']) {
-                    undocumented = ' <span class="badge badge-danger">undocumented</span>';
-                }
-
-                method_table_content += '<tr>\
-                    <td class="tx-medium" style="padding-left: 10px !important;"><a href="' + actionlink + '">' + action['action'] + undocumented + '</a></td>\
-                    <td class="tx-medium">' + template + '</td>\
-                </tr>';
-            }
-
-            api_count += 1;
-        }
+        api_count += 1;
     }
 
     $('.api-count').html(api_count.toString());
     $('#methods-table tbody').append(method_table_content);
 
     // managed policies
-
+    /*
     let managedpolicies_table_content = '';
     let managedpolicies_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/managed_policies.json');
     let managedpolicies = await managedpolicies_data.json();
@@ -394,6 +363,7 @@ async function processReferencePage() {
 
     $('.active-predefinedroles-count').html(managedpolicies['policies'].length - deprecated_policy_count);
     $('.deprecated-predefinedroles-count').html(deprecated_policy_count);
+    */
 
     $('[data-toggle="tooltip"]').tooltip();
 
