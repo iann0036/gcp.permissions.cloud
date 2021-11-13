@@ -211,9 +211,11 @@ async function processReferencePage() {
     $('#body-permissions').attr('style', 'display: none;');
     $('#body-predefinedrole').attr('style', 'display: none;');
     $('#body-policyevaluator').attr('style', 'display: none;');
+    $('.dashboard-button').attr('style', 'display: none;');
     if (window.location.pathname == "/") {
         $('#nav-general-dashboard').addClass('active');
         $('#body-dashboard').attr('style', '');
+        $('.dashboard-button').attr('style', '');
     } else if (window.location.pathname.startsWith("/usage")) {
         $('#nav-general-usage').addClass('active');
         $('#body-usage').attr('style', '');
