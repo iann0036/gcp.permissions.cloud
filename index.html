@@ -69,7 +69,7 @@
           <li class="nav-label">General</li>
           <li class="nav-item" id="nav-general-dashboard"><a href="/" class="nav-link"><span>Dashboard</span></a></li>
           <li class="nav-item" id="nav-general-usage"><a href="/usage" class="nav-link"><span>Reference Usage</span></a></li>
-          <li class="nav-item" id="nav-general-managedpolicies"><a href="/managedpolicies" class="nav-link"><span>Managed Policies</span></a></li>
+          <li class="nav-item" id="nav-general-predefinedroles"><a href="/predefinedroles" class="nav-link"><span>Predefined Roles</span></a></li>
           <li class="nav-item" id="nav-general-policyevaluator"><a href="/policyevaluator" class="nav-link"><span>Policy Evaluator</span></a></li>
           <li class="nav-label mg-t-25">Reference</li>
           <div id="reference-list"></div>
@@ -105,9 +105,9 @@
 
             <hr class="mg-y-30 bd-0">
 
-            <label class="tx-10 tx-medium tx-uppercase tx-spacing-1 tx-color-03 mg-b-5 d-flex align-items-center">Managed Policies</label>
+            <label class="tx-10 tx-medium tx-uppercase tx-spacing-1 tx-color-03 mg-b-5 d-flex align-items-center">Predefined Roles</label>
 
-            <ul id="search-managedpolicies-list" class="list-unstyled" style="flex-wrap: wrap;">
+            <ul id="search-predefinedroles-list" class="list-unstyled" style="flex-wrap: wrap;">
             </ul>
           </div><!-- navbar-search-body -->
         </div><!-- navbar-search -->
@@ -523,17 +523,17 @@
         </div><!-- container -->
       </div>
 
-      <div class="content-body" id="body-managedpolicies" style="display: none;">
+      <div class="content-body" id="body-predefinedroles" style="display: none;">
         <div class="container pd-x-0">
           <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
             <div>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-style1 mg-b-10">
                   <li class="breadcrumb-item"><a href="/">General</a></li>
-                  <li class="breadcrumb-item active" aria-current="page">Managed Policies</li>
+                  <li class="breadcrumb-item active" aria-current="page">Predefined Roles</li>
                 </ol>
               </nav>
-              <h4 class="mg-b-0 tx-spacing--1">Managed Policies</h4>
+              <h4 class="mg-b-0 tx-spacing--1">Predefined Roles</h4>
             </div>
             <div class="d-none d-md-block">
               <a href="https://raw.githubusercontent.com/iann0036/iam-dataset/main/managed_policies.json" target="_blank"><button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="download" class="wd-10 mg-r-5"></i> Download JSON</button></a>
@@ -545,8 +545,8 @@
               <div class="card mg-b-10">
                 <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
                   <div>
-                    <h6 class="mg-b-5">AWS Managed Policies</span></h6>
-                    <p class="tx-13 tx-color-03 mg-b-0">Below is a list of AWS Managed Policies.</p>
+                    <h6 class="mg-b-5">Google Cloud Predefined Roles</span></h6>
+                    <p class="tx-13 tx-color-03 mg-b-0">Below is a list of Google Cloud Predefined Roles.</p>
                   </div>
                 </div><!-- card-header -->
                 <div class="card-body pd-y-30">
@@ -556,8 +556,8 @@
                         <i data-feather="bar-chart-2"></i>
                       </div>
                       <div class="media-body">
-                        <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Active Managed Policies</h6>
-                        <h4 class="tx-20 tx-sm-18 tx-md-20 tx-normal tx-rubik mg-b-0 active-managedpolicies-count">-</h4>
+                        <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold tx-nowrap mg-b-5 mg-md-b-8">Active Predefined Roles</h6>
+                        <h4 class="tx-20 tx-sm-18 tx-md-20 tx-normal tx-rubik mg-b-0 active-predefinedroles-count">-</h4>
                       </div>
                     </div>
                     <div class="media mg-t-20 mg-sm-t-0 mg-sm-l-15 mg-md-l-40">
@@ -565,14 +565,14 @@
                         <i data-feather="bar-chart-2"></i>
                       </div>
                       <div class="media-body">
-                        <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">Deprecated Managed Policies</h6>
-                        <h4 class="tx-20 tx-sm-18 tx-md-20 tx-normal tx-rubik mg-b-0 deprecated-managedpolicies-count">-</h4>
+                        <h6 class="tx-sans tx-uppercase tx-10 tx-spacing-1 tx-color-03 tx-semibold mg-b-5 mg-md-b-8">Deprecated Predefined Roles</h6>
+                        <h4 class="tx-20 tx-sm-18 tx-md-20 tx-normal tx-rubik mg-b-0 deprecated-predefinedroles-count">-</h4>
                       </div>
                     </div>
                   </div>
                 </div><!-- card-body -->
                 <div class="table-responsive">
-                  <table class="table table-dashboard mg-b-0" id="managedpolicies-table">
+                  <table class="table table-dashboard mg-b-0" id="predefinedroles-table">
                     <thead>
                       <tr>
                         <th>Name</th>
@@ -592,22 +592,22 @@
         </div><!-- container -->
       </div>
 
-      <div class="content-body" id="body-managedpolicy" style="display: none;">
+      <div class="content-body" id="body-predefinedroles" style="display: none;">
         <div class="container pd-x-0">
           <div class="d-sm-flex align-items-center justify-content-between mg-b-20 mg-lg-b-25 mg-xl-b-30">
             <div>
               <nav aria-label="breadcrumb">
                 <ol class="breadcrumb breadcrumb-style1 mg-b-10">
                   <li class="breadcrumb-item"><a href="/">General</a></li>
-                  <li class="breadcrumb-item"><a href="/managedpolicies">Managed Policies</a></li>
-                  <li class="breadcrumb-item active managedpolicyname" aria-current="page"></li>
+                  <li class="breadcrumb-item"><a href="/predefinedroles">Predefined Roles</a></li>
+                  <li class="breadcrumb-item active predefinedrolesname" aria-current="page"></li>
                 </ol>
               </nav>
-              <h4 class="mg-b-0 tx-spacing--1 managedpolicyname"></h4>
-              <span id="managedpolicytags"></span>
+              <h4 class="mg-b-0 tx-spacing--1 predefinedrolesname"></h4>
+              <span id="predefinedrolestags"></span>
             </div>
             <div class="d-none d-md-block">
-              <a id="managedpolicy-json-link" target="_blank"><button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="download" class="wd-10 mg-r-5"></i> Download JSON</button></a>
+              <a id="predefinedroles-json-link" target="_blank"><button class="btn btn-sm pd-x-15 btn-white btn-uppercase mg-l-5"><i data-feather="download" class="wd-10 mg-r-5"></i> Download JSON</button></a>
             </div>
           </div>
 
@@ -617,10 +617,10 @@
                 <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
                   <div>
                     <h6 class="mg-b-5">Raw Policy</h6>
-                    <p class="tx-13 tx-color-03 mg-b-10">Below is the raw managed policy.</p>
+                    <p class="tx-13 tx-color-03 mg-b-10">Below is the raw predefined role policy.</p>
                   </div>
                 </div><!-- card-header -->
-                <code class="language-css managedpolicyraw mg-t-10 mg-r-10 mg-l-10 mg-b-10" style="overflow: auto;"></code>
+                <code class="language-css predefinedrolesraw mg-t-10 mg-r-10 mg-l-10 mg-b-10" style="overflow: auto;"></code>
               </div><!-- card -->
             </div><!-- col -->
             <div class="col-lg-12 col-xl-12 mg-t-12">
@@ -628,7 +628,7 @@
                 <div class="card-header pd-t-20 d-sm-flex align-items-start justify-content-between bd-b-0 pd-b-0">
                   <div>
                     <h6 class="mg-b-5">Effective Actions</h6>
-                    <p class="tx-13 tx-color-03 mg-b-10">Below is a breakdown of the effective actions for the managed policy.</p>
+                    <p class="tx-13 tx-color-03 mg-b-10">Below is a breakdown of the effective actions for the predefined role.</p>
                   </div>
                 </div><!-- card-header -->
                 <div class="table-responsive">

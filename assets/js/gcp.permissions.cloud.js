@@ -195,9 +195,9 @@ async function processReferencePage() {
     //
     $('#body-dashboard').attr('style', 'display: none;');
     $('#body-usage').attr('style', 'display: none;');
-    $('#body-managedpolicies').attr('style', 'display: none;');
+    $('#body-predefinedroles').attr('style', 'display: none;');
     $('#body-permissions').attr('style', 'display: none;');
-    $('#body-managedpolicy').attr('style', 'display: none;');
+    $('#body-predefinedrole').attr('style', 'display: none;');
     $('#body-policyevaluator').attr('style', 'display: none;');
     if (window.location.pathname == "/") {
         $('#nav-general-dashboard').addClass('active');
@@ -205,12 +205,12 @@ async function processReferencePage() {
     } else if (window.location.pathname.startsWith("/usage")) {
         $('#nav-general-usage').addClass('active');
         $('#body-usage').attr('style', '');
-    } else if (window.location.pathname.startsWith("/managedpolicies/")) {
-        $('#nav-general-managedpolicy').addClass('active');
-        $('#body-managedpolicy').attr('style', '');
-    } else if (window.location.pathname.startsWith("/managedpolicies")) {
-        $('#nav-general-managedpolicies').addClass('active');
-        $('#body-managedpolicies').attr('style', '');
+    } else if (window.location.pathname.startsWith("/predefinedroles/")) {
+        $('#nav-general-predefinedrole').addClass('active');
+        $('#body-predefinedrole').attr('style', '');
+    } else if (window.location.pathname.startsWith("/predefinedroles")) {
+        $('#nav-general-predefinedroles').addClass('active');
+        $('#body-predefinedroles').attr('style', '');
     } else if (window.location.pathname.startsWith("/policyevaluator")) {
         $('#nav-general-policyevaluator').addClass('active');
         $('#body-policyevaluator').attr('style', '');
@@ -377,7 +377,7 @@ async function processReferencePage() {
             <td class="tx-normal" style="text-decoration-line: underline; text-decoration-style: dotted;">' + readable_date(managedpolicy['updatedate']) + '</td>\
         </tr>';
 
-        if (window.location.pathname.startsWith("/managedpolicies/") && managedpolicy['name'] == window.location.pathname.replace("/managedpolicies/", "")) {
+        if (window.location.pathname.startsWith("/predefinedroles/") && managedpolicy['name'] == window.location.pathname.replace("/predefinedroles/", "")) {
             let policy = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/managedpolicies/' + managedpolicy['name'] + '.json');
             let policy_data = await policy.json();
             $('.managedpolicyraw').html(Prism.highlight(JSON.stringify(policy_data['document'], null, 4), Prism.languages.javascript, 'javascript'));
@@ -387,10 +387,10 @@ async function processReferencePage() {
         }
     }
 
-    $('#managedpolicies-table tbody').append(managedpolicies_table_content);
+    $('#predefinedroles-table tbody').append(managedpolicies_table_content);
 
-    $('.active-managedpolicies-count').html(managedpolicies['policies'].length - deprecated_policy_count);
-    $('.deprecated-managedpolicies-count').html(deprecated_policy_count);
+    $('.active-predefinedroles-count').html(managedpolicies['policies'].length - deprecated_policy_count);
+    $('.deprecated-predefinedroles-count').html(deprecated_policy_count);
 
     $('[data-toggle="tooltip"]').tooltip();
 
