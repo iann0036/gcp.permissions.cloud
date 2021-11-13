@@ -300,9 +300,14 @@ async function processReferencePage() {
 
         method_name_parts = method_name.split(".");
 
+        description = method['description'].split(". ")[0];
+        if (!description.endsWith(".")) {
+            description += ".";
+        }
+
         method_table_content += '<tr id="' + method_name + '">\
             <td class="tx-medium"><span class="tx-color-03">' + method_name_parts.shift() + '.</span>' + method_name_parts.join(".") + '</td>\
-            <td class="tx-normal">' + method['description'].split(". ")[0] + '.</td>\
+            <td class="tx-normal">' + description + '</td>\
             <td class="tx-medium">' + method['versions'].join(", ") + '</td>\
             <td class="tx-medium">' + method['method'][0].toUpperCase() + method['method'].substr(1) + '</td>\
         </tr>';
