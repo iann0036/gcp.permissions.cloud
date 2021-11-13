@@ -46,7 +46,7 @@ function get_permission_level(name) {
         return "List";
     } else if (name.match(/\.(?:get|read|select)[a-zA-Z0-9]*$/g)) {
         return "Read";
-    } else if (name.match(/\.(?:write|set|create|update|delete|cancel)[a-zA-Z0-9]*$/g)) {
+    } else if (name.match(/\.(?:write|set|create|update|add|remove|clone|copy|attach|detach|delete|cancel|resume|pause|reset|start|stop|suspend)[a-zA-Z0-9]*$/g)) {
         return "Write";
     }
     return "Unknown";
