@@ -150,16 +150,16 @@ async function processReferencePage() {
         // Managed Policies
         html = '';
         results = [];
-        for (let managedpolicy of managedpolicies['policies']) {
-            if (managedpolicy['name'].toLowerCase().includes(searchterm)) {
-                results.push(managedpolicy['name']);
+        for (let role of predefinedroles['policies']) {
+            if (role['name'].toLowerCase().includes(searchterm)) {
+                results.push(role['name']);
             }
             if (results.length >= 10) break;
         }
         for (let i=0; i<results.length && i<10; i++) {
-            html += `<li style=\"margin-left: 5px; margin-top: 5px;\"><a href=\"/managedpolicies/${results[i]}\">${results[i]}</a></li>`;
+            html += `<li style=\"margin-left: 5px; margin-top: 5px;\"><a href=\"/predefinedroles/${results[i]}\">${results[i]}</a></li>`;
         };
-        $('#search-managedpolicies-list').html(html);
+        $('#search-predefinedroles-list').html(html);
     });
 
     // omnibox search
@@ -314,66 +314,53 @@ async function processReferencePage() {
     }
     
     // managed policies
-    /*
-    let managedpolicies_table_content = '';
-    let managedpolicies_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/managed_policies.json');
-    let managedpolicies = await managedpolicies_data.json();
-
-    managedpolicies['policies'].sort(function(a, b) {
-        if (a['name'] < b['name']) {
-            return -1;
-        }
-        return 1;
-    });
+    let predefinedroles_table_content = '';
+    let predefinedroles_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/predefined_roles.json');
+    let predefinedroles = await predefinedroles_data.json();
 
     let deprecated_policy_count = 0;
-    for (let managedpolicy of managedpolicies['policies']) {
-        if (managedpolicy['deprecated']) {
-            deprecated_policy_count += 1;
-        }
-
-        for (let i=0; i<managedpolicy['access_levels'].length; i++) {
-            let access_class = "tx-success";
-            if (["Write", "Permissions management"].includes(managedpolicy['access_levels'][i])) {
-                access_class = "tx-pink";
-            }
-            if (["Unknown"].includes(managedpolicy['access_levels'][i])) {
-                access_class = "tx-color-03";
-            }
-            managedpolicy['access_levels'][i] = "<span class=\"" + access_class + "\">" + managedpolicy['access_levels'][i] + "</span>";
-        }
-
-        managedpolicies_table_content += '<tr>\
-            <td class="tx-medium"><a href="/managedpolicies/' + managedpolicy['name'] + '">' + managedpolicy['name'] + "</a>" + (managedpolicy['resource_exposure'] ? ' <span class="badge badge-info">resource exposure</span>' : '') + (managedpolicy['credentials_exposure'] ? ' <span class="badge badge-info">credentials exposure</span>' : '') + (managedpolicy['unknown_actions'] ? ' <span class="badge badge-warning">unknown actions</span>' : '') + (managedpolicy['privesc'] ? ' <span class="badge badge-warning">possible privesc</span>' : '') + (managedpolicy['malformed'] ? ' <span class="badge badge-danger">malformed</span>' : '') + (managedpolicy['deprecated'] ? ' <span class="badge badge-danger">deprecated</span>' : '') + (managedpolicy['undocumented_actions'] ? ' <span class="badge badge-danger">undocumented actions</span>' : '') + '</td>\
-            <td class="tx-normal">' + managedpolicy['access_levels'].join(", ") + '</td>\
-            <td class="tx-normal">' + managedpolicy['version'] + '</td>\
-            <td class="tx-normal" style="text-decoration-line: underline; text-decoration-style: dotted;">' + readable_date(managedpolicy['createdate']) + '</td>\
-            <td class="tx-normal" style="text-decoration-line: underline; text-decoration-style: dotted;">' + readable_date(managedpolicy['updatedate']) + '</td>\
+    for (let role of predefinedroles) {
+        let rolename = role['name'].replace("roles/", "");
+        predefinedroles_table_content += '<tr>\
+        <td class="tx-medium"><a href="/predefinedroles/' + encodeURIComponent(rolename) + '">' + role['title'] + "</a>" + (role['stage'] != "GA" ? ' <span class="badge badge-warning">' + role['stage'][0].toUpperCase() + role['stage'].substr(1).toLowerCase() + '</span>' : '') + '</td>\
+            <td class="tx-normal">' + rolename + '</td>\
+            <td class="tx-normal">' + role['description'] + '</td>\
         </tr>';
 
-        if (window.location.pathname.startsWith("/predefinedroles/") && managedpolicy['name'] == window.location.pathname.replace("/predefinedroles/", "")) {
-            let policy = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/managedpolicies/' + managedpolicy['name'] + '.json');
+        if (window.location.pathname.startsWith("/predefinedroles/") && role['name'] == window.location.pathname.replace("/predefinedroles/", "")) {
+            let policy = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/roles/' + rolename + '.json');
             let policy_data = await policy.json();
-            $('.managedpolicyraw').html(Prism.highlight(JSON.stringify(policy_data['document'], null, 4), Prism.languages.javascript, 'javascript'));
-            $('.managedpolicyname').html(managedpolicy['name']);
-            processManagedPolicy(policy_data, iam_def);
-            $('#managedpolicy-json-link').attr('href', 'https://raw.githubusercontent.com/iann0036/iam-dataset/main/managedpolicies/' + managedpolicy['name'] + '.json');
+            $('.predefinedroleraw').html(Prism.highlight(JSON.stringify(policy_data['includedPermissions'], null, 4), Prism.languages.javascript, 'javascript'));
+            $('.predefinedrolename').html(role['title'] + " (" + rolename + ")");
+            let tablerows = '';
+            for (let perm of policy_data['includedPermissions']) {
+                tablerows += '<tr>\
+                    <td class="tx-medium">' + perm + '</td>\
+                    <td class="tx-medium">' + perm + '</td>\
+                    <td class="tx-normal"><i>Coming soon...</i></td>\
+                </tr>';
+            }
+            $('.effectivepolicy-table tbody').html(tablerows);
+            $('#predefinedrole-json-link').attr('href', 'https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/roles/' + rolename + '.json');
         }
     }
 
-    $('#predefinedroles-table tbody').append(managedpolicies_table_content);
+    $('#predefinedroles-table tbody').append(predefinedroles_table_content);
 
-    $('.active-predefinedroles-count').html(managedpolicies['policies'].length - deprecated_policy_count);
+    $('.active-predefinedroles-count').html(predefinedroles.length - deprecated_policy_count);
     $('.deprecated-predefinedroles-count').html(deprecated_policy_count);
-    */
 
     // Total counts
     function numberWithCommas(x) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+    let apicount = 0;
+    for (let apiitem of methods) {
+        apicount += Object.keys(apiitem['methods']).length;
+    }
     $('.total-iamactions').html(numberWithCommas(Object.keys(permissions).length));
-    $('.total-apimethods').html(numberWithCommas(Object.keys(api['methods']).length));
-    $('.total-predefinedroles').html("TBC");
+    $('.total-apimethods').html(numberWithCommas(apicount));
+    $('.total-predefinedroles').html(numberWithCommas(predefinedroles.length));
 
     $('[data-toggle="tooltip"]').tooltip();
 
