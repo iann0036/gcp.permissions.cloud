@@ -338,10 +338,19 @@ async function processReferencePage() {
             $('.predefinedrolename').html(role['title'] + " (" + rolename + ")");
             let tablerows = '';
             for (let perm of policy_data['includedPermissions']) {
+                let access_class = "tx-success";
+                let permission_level = get_permission_level(perm);
+                if (["Write", "Permissions management"].includes(permission_level)) {
+                    access_class = "tx-pink";
+                }
+                if (["Unknown"].includes(permission_level)) {
+                    access_class = "tx-color-03";
+                }
+
                 tablerows += '<tr>\
                     <td class="tx-medium">' + perm + '</td>\
                     <td class="tx-medium">' + perm + '</td>\
-                    <td class="tx-normal"><i>Coming soon...</i></td>\
+                    <td class="' + access_class + '">' + permission_level + '</td>\
                 </tr>';
             }
             $('#effectivepolicy-table tbody').html(tablerows);
