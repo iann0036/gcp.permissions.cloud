@@ -75,7 +75,7 @@ async function processReferencePage() {
     }
     let api = null;
 
-    let permissions_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/permissions.json');
+    let permissions_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/role_permissions.json');
     let permissions = await permissions_data.json();
 
     $('#actions-table tbody').html('');
@@ -172,33 +172,6 @@ async function processReferencePage() {
             $('.navbar-search-header > input').trigger('input');
         }, 100);
     }
-    */
-
-    // resource type modal
-    /*
-    $('#resourceTypeModal').on('show.bs.modal', function (e) {
-        let offset = 1;
-        let rtdstart = "{";
-        let rtdend = "\n}";        
-        let tokens = $(e.relatedTarget).html().split(/(\[\]|\.)/g);
-        for (let token of tokens) {
-            if (token == "[]") {
-                rtdstart += "[\n" + "    ".repeat(offset + 1);
-                rtdend = "\n" + "    ".repeat(offset) + "]" + rtdend;
-                offset += 1;
-            } else if (token == ".") {
-                rtdstart += "{" + "    ".repeat(offset + 1);
-                rtdend = "\n" + "    ".repeat(offset) + "}" + rtdend;
-                offset += 1;
-            } else if (token == "") {
-                // nothing
-            } else {
-                rtdstart += "\n" + "    ".repeat(offset) + "\"" + token + "\": ";
-            }
-        }
-        rtdstart += "\"VALUE\",\n" + "    ".repeat(offset) + "...";
-        $('#resourceTypeDisplay').html(rtdstart + rtdend);
-    });
     */
 
     //
@@ -320,9 +293,19 @@ async function processReferencePage() {
 
     let deprecated_policy_count = 0;
     for (let role of predefinedroles) {
+        let policy_has_undocumented = false;
+
+        for (let ref_permission of permissions[perm]) {
+            if (ref_permission['id'] == role['name']) {
+                if (ref_permission['undocumented']) {
+                    policy_has_undocumented = true;
+                }
+            }
+        }
+
         let rolename = role['name'].replace("roles/", "");
         predefinedroles_table_content += '<tr>\
-        <td class="tx-medium"><a href="/predefinedroles/' + encodeURIComponent(rolename) + '">' + role['title'] + "</a>" + (role['stage'] == "DEPRECATED" ? ' <span class="badge badge-danger">deprecated</span>' : '') + (role['stage'] == "BETA" ? ' <span class="badge badge-warning">beta</span>' : '') + '</td>\
+        <td class="tx-medium"><a href="/predefinedroles/' + encodeURIComponent(rolename) + '">' + role['title'] + "</a>" + (role['stage'] == "DEPRECATED" ? ' <span class="badge badge-danger">deprecated</span>' : '') + (policy_has_undocumented ? ' <span class="badge badge-danger">undocumented actions</span>' : '') + (role['stage'] == "BETA" ? ' <span class="badge badge-warning">beta</span>' : '') + '</td>\
             <td class="tx-medium">' + rolename + '</td>\
             <td class="tx-normal">' + role['description'] || '-' + '</td>\
         </tr>';
@@ -334,11 +317,19 @@ async function processReferencePage() {
         if (window.location.pathname.startsWith("/predefinedroles/") && rolename.toLowerCase() == window.location.pathname.replace("/predefinedroles/", "").toLowerCase()) {
             let policy = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/roles/' + rolename + '.json');
             let policy_data = await policy.json();
-            $('#predefinedroletags').html((role['stage'] == "DEPRECATED" ? ' <span class="badge badge-danger">deprecated</span>' : '') + (role['stage'] == "BETA" ? ' <span class="badge badge-warning">beta</span>' : ''));
-            $('.predefinedroleraw').html(Prism.highlight(JSON.stringify(policy_data['includedPermissions'], null, 4), Prism.languages.javascript, 'javascript'));
-            $('.predefinedrolename').html(role['title'] + " (" + rolename + ")");
+
             let tablerows = '';
             for (let perm of policy_data['includedPermissions']) {
+                let undocumented = false;
+
+                for (let ref_permission of permissions[perm]) {
+                    if (ref_permission['id'] == policy_data['name']) {
+                        if (ref_permission['undocumented']) {
+                            undocumented = true;
+                        }
+                    }
+                }
+
                 let access_class = "tx-success";
                 let permission_level = get_permission_level(perm);
                 if (["Write", "Permissions management"].includes(permission_level)) {
@@ -349,11 +340,16 @@ async function processReferencePage() {
                 }
 
                 tablerows += '<tr>\
-                    <td class="tx-medium">' + perm + '</td>\
+                    <td class="tx-medium">' + perm + (undocumented ? ' <span class="badge badge-danger">undocumented</span>' : '') + '</td>\
                     <td class="tx-medium">' + perm + '</td>\
                     <td class="' + access_class + '">' + permission_level + '</td>\
                 </tr>';
             }
+
+            $('#predefinedroletags').html((role['stage'] == "DEPRECATED" ? ' <span class="badge badge-danger">deprecated</span>' : '') + (policy_has_undocumented ? ' <span class="badge badge-danger">undocumented actions</span>' : '') + (role['stage'] == "BETA" ? ' <span class="badge badge-warning">beta</span>' : ''));
+            $('.predefinedroleraw').html(Prism.highlight(JSON.stringify(policy_data['includedPermissions'], null, 4), Prism.languages.javascript, 'javascript'));
+            $('.predefinedrolename').html(role['title'] + " (" + rolename + ")");
+
             $('#effectivepolicy-table tbody').html(tablerows);
             $('#predefinedrole-json-link').attr('href', 'https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/roles/' + rolename + '.json');
         }
