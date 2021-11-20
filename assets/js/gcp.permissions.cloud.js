@@ -210,6 +210,7 @@ async function processReferencePage() {
     if (window.location.pathname == "/") {
         $('#nav-general-dashboard').addClass('active');
         $('#body-dashboard').attr('style', '');
+        loadDashboardCharts();
     } else if (window.location.pathname.startsWith("/usage")) {
         $('#nav-general-usage').addClass('active');
         $('#body-usage').attr('style', '');
