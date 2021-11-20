@@ -121,7 +121,7 @@ async function processReferencePage() {
         let results = [];
         for (let permission_name of Object.keys(permissions)) {
             if (permission_name.toLowerCase().startsWith(searchterm)) {
-                results.push(fullpriv);
+                results.push(permission_name);
             }
             if (results.length >= 10) break;
         }
