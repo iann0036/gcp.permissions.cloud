@@ -294,13 +294,8 @@ async function processReferencePage() {
     let deprecated_policy_count = 0;
     for (let role of predefinedroles) {
         let policy_has_undocumented = false;
-
-        for (let ref_permission of permissions[perm]) {
-            if (ref_permission['id'] == role['name']) {
-                if (ref_permission['undocumented']) {
-                    policy_has_undocumented = true;
-                }
-            }
+        if (role['has_undocumented']) {
+            policy_has_undocumented = true;
         }
 
         let rolename = role['name'].replace("roles/", "");
