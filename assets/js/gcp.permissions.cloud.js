@@ -1,8 +1,5 @@
 // gcp.permissions.cloud Core Functionality
 
-var custom_policy_timer;
-
-
 var arn_template_state = "Processed";
 function swapARN() {
     $('#arn-template-state').html(arn_template_state);
@@ -210,7 +207,6 @@ async function processReferencePage() {
     $('#body-predefinedroles').attr('style', 'display: none;');
     $('#body-permissions').attr('style', 'display: none;');
     $('#body-predefinedrole').attr('style', 'display: none;');
-    $('#body-policyevaluator').attr('style', 'display: none;');
     if (window.location.pathname == "/") {
         $('#nav-general-dashboard').addClass('active');
         $('#body-dashboard').attr('style', '');
@@ -223,9 +219,6 @@ async function processReferencePage() {
     } else if (window.location.pathname.startsWith("/predefinedroles")) {
         $('#nav-general-predefinedroles').addClass('active');
         $('#body-predefinedroles').attr('style', '');
-    } else if (window.location.pathname.startsWith("/policyevaluator")) {
-        $('#nav-general-policyevaluator').addClass('active');
-        $('#body-policyevaluator').attr('style', '');
     } else if (window.location.pathname.startsWith("/iam") || window.location.pathname.startsWith("/api")) {
         $('#body-permissions').attr('style', '');
     } else {
@@ -382,18 +375,6 @@ async function processReferencePage() {
             $('.content-body').scrollTop($(window.location.hash).offset().top - $('.content-header').height() + 1);
         } catch (e) {}
     }
-
-    // policy evaluator
-    /*
-    if (window.location.pathname.startsWith("/policyevaluator")) {
-        $('.custompolicy').bind('input propertychange', function() {
-            clearTimeout(custom_policy_timer);
-            custom_policy_timer = setTimeout(function(){
-                processCustomPolicy(iam_def);
-            }, 800);
-        });
-    }
-    */
 }
 
 processReferencePage();
