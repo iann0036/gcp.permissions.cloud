@@ -105,12 +105,12 @@ $(document).ready(function() {
       $('.progress.op-5').addClass('op-5');
     }
 
-    var hasMode = Cookies.get('df-mode');
+    /*var hasMode = Cookies.get('df-mode');
     if(hasMode === 'dark') {
       darkMode();
     } else {
       lightMode();
-    }
+    }*/
 
   });
 });
