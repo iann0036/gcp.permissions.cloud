@@ -113,54 +113,52 @@ async function processReferencePage() {
         }, 100);
     });
 
-    /*
     $('.navbar-search-header > input').on('input', function(e){
         let searchterm = $('.navbar-search-header > input').val().toLowerCase();
 
         // IAM
         let html = '';
         let results = [];
-        for (let service of iam_def) {
-            for (let privilege of service['privileges']) {
-                let fullpriv = service['prefix'] + ":" + privilege['privilege'];
-                if (service['prefix'].toLowerCase().startsWith(searchterm) || privilege['privilege'].toLowerCase().startsWith(searchterm) || fullpriv.toLowerCase().startsWith(searchterm)) {
-                    results.push(fullpriv);
-                }
-                if (results.length >= 10) break;
+        for (let permission_name of Object.keys(permissions)) {
+            if (permission_name.toLowerCase().startsWith(searchterm)) {
+                results.push(fullpriv);
             }
             if (results.length >= 10) break;
         }
         for (let i=0; i<results.length && i<10; i++) {
-            html += `<li style=\"margin-left: 5px; margin-top: 5px;\"><a href=\"/iam/${results[i].split(":")[0]}#${results[i].replace(":", "-")}\">${results[i]}</a></li>`;
+            var permission_name_parts = results[i].split(".");
+
+            html += `<li style=\"margin-left: 5px; margin-top: 5px;\"><a href=\"/iam/${permission_name_parts[0]}#${results[i]}\">${results[i]}</a></li>`;
         };
         $('#search-iam-list').html(html);
 
         // API
         html = '';
         results = [];
-        for (let iam_mapping_name of Object.keys(sdk_map['sdk_method_iam_mappings']).sort()) {
-            let split_name = iam_mapping_name.split(".");
-            if (split_name[0].toLowerCase().startsWith(searchterm) || split_name[1].toLowerCase().startsWith(searchterm) || iam_mapping_name.toLowerCase().startsWith(searchterm)) {
+        for (let method_name of Object.keys(api['methods'])) {
+            if (method_name.toLowerCase().startsWith(searchterm)) {
                 results.push(iam_mapping_name);
             }
             if (results.length >= 10) break;
         }
         for (let i=0; i<results.length && i<10; i++) {
-            html += `<li style=\"margin-left: 5px; margin-top: 5px;\"><a href=\"/api/${sdk_map['sdk_method_iam_mappings'][results[i]][0]['action'].split(":")[0]}#${results[i].replace(".", "_")}\">${results[i]}</a></li>`;
+            var method_name_parts = results[i].split(".");
+
+            html += `<li style=\"margin-left: 5px; margin-top: 5px;\"><a href=\"/api/${method_name_parts[0]}#${results[i]}\">${results[i]}</a></li>`;
         };
         $('#search-api-list').html(html);
 
         // Managed Policies
         html = '';
         results = [];
-        for (let role of predefinedroles['policies']) {
-            if (role['name'].toLowerCase().includes(searchterm)) {
-                results.push(role['name']);
+        for (let role of predefinedroles) {
+            if (role['name'].replace("roles/", "").toLowerCase().includes(searchterm) || role['title'].toLowerCase().includes(searchterm)) {
+                results.push([role['name'].replace("roles/", ""), role['title']]);
             }
             if (results.length >= 10) break;
         }
         for (let i=0; i<results.length && i<10; i++) {
-            html += `<li style=\"margin-left: 5px; margin-top: 5px;\"><a href=\"/predefinedroles/${results[i]}\">${results[i]}</a></li>`;
+            html += `<li style=\"margin-left: 5px; margin-top: 5px;\"><a href=\"/predefinedroles/${results[i][0]}\">${results[i][1]} (${results[i][0]})</a></li>`;
         };
         $('#search-predefinedroles-list').html(html);
     });
@@ -175,7 +173,6 @@ async function processReferencePage() {
             $('.navbar-search-header > input').trigger('input');
         }, 100);
     }
-    */
 
     //
     $('#body-dashboard').attr('style', 'display: none;');
