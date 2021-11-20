@@ -323,8 +323,8 @@ async function processReferencePage() {
     for (let role of predefinedroles) {
         let rolename = role['name'].replace("roles/", "");
         predefinedroles_table_content += '<tr>\
-        <td class="tx-medium"><a href="/predefinedroles/' + encodeURIComponent(rolename) + '">' + role['title'] + "</a>" + (role['stage'] != "GA" ? ' <span class="badge badge-warning">' + role['stage'][0].toUpperCase() + role['stage'].substr(1).toLowerCase() + '</span>' : '') + '</td>\
-            <td class="tx-normal">' + rolename + '</td>\
+        <td class="tx-medium"><a href="/predefinedroles/' + encodeURIComponent(rolename) + '">' + role['title'] + "</a>" + (role['stage'] == "DEPRECATED" ? ' <span class="badge badge-danger">deprecated</span>' : '') + (role['stage'] == "BETA" ? ' <span class="badge badge-warning">beta</span>' : '') + '</td>\
+            <td class="tx-medium">' + rolename + '</td>\
             <td class="tx-normal">' + role['description'] + '</td>\
         </tr>';
 
