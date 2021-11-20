@@ -135,9 +135,12 @@ async function processReferencePage() {
         // API
         html = '';
         results = [];
-        for (let method_name of Object.keys(api['methods'])) {
-            if (method_name.toLowerCase().startsWith(searchterm)) {
-                results.push(iam_mapping_name);
+        for (let apiitem of methods) {
+            for (let method_name of Object.keys(apiitem['methods'])) {
+                if (method_name.toLowerCase().startsWith(searchterm)) {
+                    results.push(iam_mapping_name);
+                }
+                if (results.length >= 10) break;
             }
             if (results.length >= 10) break;
         }
