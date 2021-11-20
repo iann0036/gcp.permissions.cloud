@@ -368,8 +368,11 @@ async function processReferencePage() {
     */
 
     // Total counts
-    $('.total-iamactions').html(Object.keys(permissions).length);
-    $('.total-apimethods').html(Object.keys(api['methods']).length);
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+    $('.total-iamactions').html(numberWithCommas(Object.keys(permissions).length));
+    $('.total-apimethods').html(numberWithCommas(Object.keys(api['methods']).length));
     $('.total-predefinedroles').html("TBC");
 
     $('[data-toggle="tooltip"]').tooltip();
