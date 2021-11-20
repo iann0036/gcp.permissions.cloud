@@ -78,6 +78,9 @@ async function processReferencePage() {
     let permissions_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/role_permissions.json');
     let permissions = await permissions_data.json();
 
+    let predefinedroles_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/predefined_roles.json');
+    let predefinedroles = await predefinedroles_data.json();
+
     $('#actions-table tbody').html('');
 
     methods.sort((a, b) => a['title'].toLowerCase() < b['title'].toLowerCase() ? -1 : 1)
@@ -288,9 +291,6 @@ async function processReferencePage() {
     
     // managed policies
     let predefinedroles_table_content = '';
-    let predefinedroles_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/predefined_roles.json');
-    let predefinedroles = await predefinedroles_data.json();
-
     let deprecated_policy_count = 0;
     for (let role of predefinedroles) {
         let policy_has_undocumented = false;
