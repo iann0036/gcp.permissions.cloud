@@ -328,6 +328,10 @@ async function processReferencePage() {
             <td class="tx-normal">' + role['description'] + '</td>\
         </tr>';
 
+        if (role['stage'] == "DEPRECATED") {
+            deprecated_policy_count += 1;
+        }
+
         if (window.location.pathname.startsWith("/predefinedroles/") && role['name'] == window.location.pathname.replace("/predefinedroles/", "")) {
             let policy = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/roles/' + rolename + '.json');
             let policy_data = await policy.json();
