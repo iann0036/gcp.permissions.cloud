@@ -304,7 +304,6 @@ async function processReferencePage() {
                 <td class="tx-medium"><span class="tx-color-03">' + method_name_parts.shift() + '.</span>' + method_name_parts.join(".") + '</td>\
                 <td class="tx-normal">' + description + '</td>\
                 <td class="tx-medium">' + method['versions'].join(", ") + '</td>\
-                <td class="tx-medium">' + method['method'][0].toUpperCase() + method['method'].substr(1) + '</td>\
             </tr>';
 
             api_count += 1;
