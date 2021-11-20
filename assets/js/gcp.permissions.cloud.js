@@ -331,7 +331,7 @@ async function processReferencePage() {
             deprecated_policy_count += 1;
         }
 
-        if (window.location.pathname.startsWith("/predefinedroles/") && role['name'].toLowerCase() == window.location.pathname.replace("/predefinedroles/", "").toLowerCase()) {
+        if (window.location.pathname.startsWith("/predefinedroles/") && rolename.toLowerCase() == window.location.pathname.replace("/predefinedroles/", "").toLowerCase()) {
             let policy = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/roles/' + rolename + '.json');
             let policy_data = await policy.json();
             $('.predefinedroleraw').html(Prism.highlight(JSON.stringify(policy_data['includedPermissions'], null, 4), Prism.languages.javascript, 'javascript'));
