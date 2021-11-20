@@ -344,7 +344,7 @@ async function processReferencePage() {
                     <td class="tx-normal"><i>Coming soon...</i></td>\
                 </tr>';
             }
-            $('.effectivepolicy-table tbody').html(tablerows);
+            $('#effectivepolicy-table tbody').html(tablerows);
             $('#predefinedrole-json-link').attr('href', 'https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/roles/' + rolename + '.json');
         }
     }
