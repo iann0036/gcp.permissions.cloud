@@ -138,7 +138,7 @@ async function processReferencePage() {
         for (let apiitem of methods) {
             for (let method_name of Object.keys(apiitem['methods'])) {
                 if (method_name.toLowerCase().startsWith(searchterm)) {
-                    results.push(iam_mapping_name);
+                    results.push(method_name);
                 }
                 if (results.length >= 10) break;
             }
