@@ -233,6 +233,11 @@ async function processReferencePage() {
         $('.display-api').attr('style', '');
     }
 
+    // Total counts
+    $('.total-iamactions').html(Object.keys(permissions).length);
+    $('.total-apimethods').html(Object.keys(api['methods']).length);
+    $('.total-predefinedroles').html("TBC");
+
     if (api) {
         $('.servicename').html(api['title'].replace(/ API$/, ""));
 
