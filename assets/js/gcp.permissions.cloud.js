@@ -375,6 +375,10 @@ async function processReferencePage() {
             $('.content-body').scrollTop($(window.location.hash).offset().top - $('.content-header').height() + 1);
         } catch (e) {}
     }
+
+    $(() => {
+        $(".table-responsive").floatingScroll();
+    });    
 }
 
 processReferencePage();
