@@ -65,6 +65,20 @@ function getQueryVariable(variable) {
     console.log('Query variable %s not found', variable);
 }
 
+function mapAPIToIAMService(service_mapping, api) {
+    if (service_mapping["api"][api]) {
+        return service_mapping["api"][api];
+    }
+    return api;
+}
+
+function mapIAMToAPIService(service_mapping, iam) {
+    if (service_mapping["iam"][iam]) {
+        return service_mapping["iam"][iam];
+    }
+    return iam;
+}
+
 async function processReferencePage() {
     let methods_raw_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/methods.json');
     let methods_raw = await methods_raw_data.json();
@@ -74,6 +88,9 @@ async function processReferencePage() {
         methods.push(methods_raw[k]);
     }
     let api = null;
+
+    let service_mapping_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/service_mapping.json');
+    let service_mapping = await service_mapping_data.json();
 
     let permissions_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/role_permissions.json');
     let permissions = await permissions_data.json();
@@ -87,7 +104,7 @@ async function processReferencePage() {
 
     if ($('#reference-list').html() == "") {
         for (let apiitem of methods) {
-            if (window.location.pathname == "/iam/" + apiitem['id']) {
+            if (window.location.pathname == "/iam/" + mapAPIToIAMService(service_mapping, apiitem['id'])) {
                 api = apiitem;
 
                 $('#reference-list').append('<li class="nav-item active"><a href="/iam/' + apiitem['id'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
@@ -223,10 +240,10 @@ async function processReferencePage() {
         let actions_table_content = '';
         let iam_count = 0;
         for (let permission_name of Object.keys(permissions)) {
-            if (permission_name.startsWith(window.location.pathname.replace("/iam/", "") + ".") || permission_name.startsWith(window.location.pathname.replace("/api/", "") + ".")) {
+            if (permission_name.startsWith(mapAPIToIAMService(service_mapping, window.location.pathname.replace("/iam/", "")) + ".") || permission_name.startsWith(window.location.pathname.replace("/api/", "") + ".")) {
                 iam_count += 1;
             }
-            if (permission_name.startsWith(window.location.pathname.replace("/iam/", "") + ".")) {
+            if (permission_name.startsWith(mapAPIToIAMService(service_mapping, window.location.pathname.replace("/iam/", "")) + ".")) {
                 let access_class = "tx-success";
                 let permission_level = get_permission_level(permission_name);
                 if (["Write", "Permissions management"].includes(permission_level)) {
