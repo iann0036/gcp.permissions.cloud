@@ -107,7 +107,7 @@ async function processReferencePage() {
             if (window.location.pathname == "/iam/" + mapAPIToIAMService(service_mapping, apiitem['id'])) {
                 api = apiitem;
 
-                $('#reference-list').append('<li class="nav-item active"><a href="/iam/' + apiitem['id'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
+                $('#reference-list').append('<li class="nav-item active"><a href="/iam/' + mapAPIToIAMService(service_mapping, apiitem['id']) + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
             } else if (window.location.pathname == "/api/" + apiitem['id']) {
                 api = apiitem;
 
@@ -115,7 +115,7 @@ async function processReferencePage() {
             } else if (window.location.pathname.startsWith("/api/")) {
                 $('#reference-list').append('<li class="nav-item"><a href="/api/' + apiitem['id'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
             } else {
-                $('#reference-list').append('<li class="nav-item"><a href="/iam/' + apiitem['id'] + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
+                $('#reference-list').append('<li class="nav-item"><a href="/iam/' + mapAPIToIAMService(service_mapping, apiitem['id']) + '" class="nav-link"><span>' + apiitem['title'].replace(/ API$/, "") + '</span></a></li>');
             }
         }
     }
@@ -231,10 +231,10 @@ async function processReferencePage() {
         $('.servicename').html(api['title'].replace(/ API$/, ""));
 
         $('.iam-link').click(() => {
-            window.location.pathname = window.location.pathname.replace("/api/", "/iam/");
+            window.location.pathname = "/iam/" + mapAPIToIAMService(service_mapping, window.location.pathname.replace("/api/", ""));
         });
         $('.api-link').click(() => {
-            window.location.pathname = window.location.pathname.replace("/iam/", "/api/");
+            window.location.pathname = "/api/" + mapIAMToAPIService(service_mapping, window.location.pathname.replace("/iam/", ""));
         });
         
         let actions_table_content = '';
