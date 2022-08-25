@@ -82,10 +82,16 @@ function mapIAMToAPIService(service_mapping, iam) {
 async function processReferencePage() {
     let methods_raw_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/methods.json');
     let methods_raw = await methods_raw_data.json();
+
+    let iam_extra_methods_raw_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/iam_extra_methods.json');
+    let iam_extra_methods_raw = await iam_extra_methods_raw_data.json();
+
+    let methods_combined = Object.assign({}, iam_extra_methods_raw, methods_raw);
+
     let methods = [];
-    for (let k of Object.keys(methods_raw)) {
-        methods_raw[k]['id'] = k;
-        methods.push(methods_raw[k]);
+    for (let k of Object.keys(methods_combined)) {
+        methods_combined[k]['id'] = k;
+        methods.push(methods_combined[k]);
     }
     let api = null;
 
