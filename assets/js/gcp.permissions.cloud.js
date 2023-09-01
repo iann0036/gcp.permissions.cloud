@@ -355,10 +355,12 @@ async function processReferencePage() {
             for (let perm of policy_data['includedPermissions']) {
                 let undocumented = false;
 
-                for (let ref_permission of permissions[perm]) {
-                    if (ref_permission['id'] == policy_data['name']) {
-                        if (ref_permission['undocumented']) {
-                            undocumented = true;
+                if (permissions[perm]) {
+                    for (let ref_permission of permissions[perm]) {
+                        if (ref_permission['id'] == policy_data['name']) {
+                            if (ref_permission['undocumented']) {
+                                undocumented = true;
+                            }
                         }
                     }
                 }
