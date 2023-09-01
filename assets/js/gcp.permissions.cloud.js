@@ -323,10 +323,22 @@ async function processReferencePage() {
         if (role['has_undocumented']) {
             policy_has_undocumented = true;
         }
+        let policy_has_credentialexposure = false;
+        if (role['has_credentialexposure']) {
+            policy_credentialexposure = true;
+        }
+        let policy_has_dataaccess = false;
+        if (role['has_dataaccess']) {
+            policy_has_dataaccess = true;
+        }
+        let policy_has_privesc = false;
+        if (role['has_privesc']) {
+            policy_has_privesc = true;
+        }
 
         let rolename = role['name'].replace("roles/", "");
         predefinedroles_table_content += '<tr>\
-        <td class="tx-medium"><a href="/predefinedroles/' + encodeURIComponent(rolename) + '">' + role['title'] + "</a>" + (role['stage'] == "DEPRECATED" ? ' <span class="badge badge-danger">deprecated</span>' : '') + (policy_has_undocumented ? ' <span class="badge badge-danger">undocumented actions</span>' : '') + (role['stage'] == "BETA" ? ' <span class="badge badge-warning">beta</span>' : '') + '</td>\
+        <td class="tx-medium"><a href="/predefinedroles/' + encodeURIComponent(rolename) + '">' + role['title'] + "</a>" + (policy_has_dataaccess ? ' <span class="badge badge-info">data access</span>' : '') + (policy_has_credentialexposure ? ' <span class="badge badge-info">credentials exposure</span>' : '') + (policy_has_privesc ? ' <span class="badge badge-warning">possible privesc</span>' : '') + (role['stage'] == "DEPRECATED" ? ' <span class="badge badge-danger">deprecated</span>' : '') + (policy_has_undocumented ? ' <span class="badge badge-danger">undocumented actions</span>' : '') + (role['stage'] == "BETA" ? ' <span class="badge badge-warning">beta</span>' : '') + '</td>\
             <td class="tx-medium">' + rolename + '</td>\
             <td class="tx-normal">' + role['description'] || '-' + '</td>\
         </tr>';
