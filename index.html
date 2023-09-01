@@ -37,6 +37,7 @@
     <link rel="preload" href="https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/methods.json" as="fetch" crossorigin>
     <link rel="preload" href="https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/role_permissions.json" as="fetch" crossorigin>
     <link rel="preload" href="https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/predefined_roles.json" as="fetch" crossorigin>
+    <link rel="preload" href="https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/tags.json" as="fetch" crossorigin>
 
     <!-- omnibox search -->
     <link rel="search" href="https://gcp.permissions.cloud/search.xml" type="application/opensearchdescription+xml" title="gcp.permissions.cloud"/>
@@ -185,7 +186,6 @@
                     <thead>
                       <tr>
                         <th>Name</th>
-                        <th>Used By</th>
                         <th>Access Level</th>
                         <th>Predefined Roles</th>
                       </tr>
@@ -376,6 +376,18 @@
                       </tr>
                     </thead>
                     <tbody>
+                      <tr>
+                        <td><span class="badge badge-info">credentials exposure</span></td>
+                        <td>A predefined role or predefined role action tag that indicates the presence of an action that could produce a response that contains credentials.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-info">data access</span></td>
+                        <td>A predefined role or predefined role action tag that indicates the presence of an action that could return data within Google Cloud data stores.</td>
+                      </tr>
+                      <tr>
+                        <td><span class="badge badge-warning">possible privesc</span></td>
+                        <td>A predefined role or predefined role action tag that indicates the presence of an action that could potentially lead to a privilege escalation.</td>
+                      </tr>
                       <tr>
                         <td><span class="badge badge-warning">beta</span></td>
                         <td>A predefined role tag indicating that the predefined role is in beta and is not recommended for production use.</td>

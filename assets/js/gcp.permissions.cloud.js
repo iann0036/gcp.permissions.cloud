@@ -83,6 +83,9 @@ async function processReferencePage() {
     let methods_raw_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/methods.json');
     let methods_raw = await methods_raw_data.json();
 
+    let tags_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/tags.json');
+    let tags = await tags_data.json();
+
     let iam_extra_methods_raw_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/iam_extra_methods.json');
     let iam_extra_methods_raw = await iam_extra_methods_raw_data.json();
 
@@ -259,12 +262,13 @@ async function processReferencePage() {
                     access_class = "tx-color-03";
                 }
 
-                //let used_by = await getUsedBy(service['prefix'] + ':' + privilege['privilege'], sdk_map);
-                let used_by = "<i>Coming soon...</i>";
-
                 let predefined_roles = [];
+                let undocumented = false;
                 for (let predefined_role of permissions[permission_name]) {
                     predefined_roles.push("<a href=\"/predefinedroles/" + predefined_role['id'] + "\">" + predefined_role['name'] + "</a> <span class=\"tx-color-03\">(" + predefined_role['id'] + ")</span>");
+                    if (predefined_role['undocumented']) {
+                        undocumented = true;
+                    }
                 }
 
                 /*
@@ -274,10 +278,9 @@ async function processReferencePage() {
                 */
 
                 let parts = permission_name.split(".");
-                
+
                 actions_table_content += '<tr id="' + permission_name + '">\
-                    <td class="tx-medium"><span class="tx-color-03">' + parts.shift() + '.</span>' + parts.join(".") + '</td>\
-                    <td class="tx-medium">' + used_by + '</td>\
+                    <td class="tx-medium"><span class="tx-color-03">' + parts.shift() + '.</span>' + parts.join(".") + (tags['iam']['DataAccess'].includes(permission_name) ? ' <span class="badge badge-info">data access</span>' : '') + (tags['iam']['CredentialExposure'].includes(permission_name) ? ' <span class="badge badge-info">credentials exposure</span>' : '') + (tags['iam']['PrivEsc'].includes(permission_name) ? ' <span class="badge badge-warning">possible privesc</span>' : '') + (undocumented ? ' <span class="badge badge-danger">undocumented</span>' : '') + '</td>\
                     <td class="' + access_class + '">' + permission_level + '</td>\
                     <td class="tx-medium">' + predefined_roles.join("<br />") + '</td>\
                 </tr>';
@@ -358,7 +361,7 @@ async function processReferencePage() {
                 }
 
                 tablerows += '<tr>\
-                    <td class="tx-medium">' + perm + (undocumented ? ' <span class="badge badge-danger">undocumented</span>' : '') + '</td>\
+                    <td class="tx-medium">' + perm + (tags['iam']['DataAccess'].includes(perm) ? ' <span class="badge badge-info">data access</span>' : '') + (tags['iam']['CredentialExposure'].includes(perm) ? ' <span class="badge badge-info">credentials exposure</span>' : '') + (tags['iam']['PrivEsc'].includes(perm) ? ' <span class="badge badge-warning">possible privesc</span>' : '') + (undocumented ? ' <span class="badge badge-danger">undocumented</span>' : '') + '</td>\
                     <td class="tx-medium">' + perm + '</td>\
                     <td class="' + access_class + '">' + permission_level + '</td>\
                 </tr>';
