@@ -363,6 +363,8 @@ async function processReferencePage() {
                             }
                         }
                     }
+                } else {
+                    undocumented = true;
                 }
 
                 let access_class = "tx-success";
