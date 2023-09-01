@@ -383,7 +383,7 @@ async function processReferencePage() {
                 </tr>';
             }
 
-            $('#predefinedroletags').html((role['stage'] == "DEPRECATED" ? ' <span class="badge badge-danger">deprecated</span>' : '') + (policy_has_undocumented ? ' <span class="badge badge-danger">undocumented actions</span>' : '') + (role['stage'] == "BETA" ? ' <span class="badge badge-warning">beta</span>' : ''));
+            $('#predefinedroletags').html((policy_has_dataaccess ? ' <span class="badge badge-info">data access</span>' : '') + (policy_has_credentialexposure ? ' <span class="badge badge-info">credentials exposure</span>' : '') + (policy_has_privesc ? ' <span class="badge badge-warning">possible privesc</span>' : '') + (role['stage'] == "DEPRECATED" ? ' <span class="badge badge-danger">deprecated</span>' : '') + (policy_has_undocumented ? ' <span class="badge badge-danger">undocumented actions</span>' : '') + (role['stage'] == "BETA" ? ' <span class="badge badge-warning">beta</span>' : ''));
             $('.predefinedroleraw').html(Prism.highlight(JSON.stringify(policy_data['includedPermissions'], null, 4), Prism.languages.javascript, 'javascript'));
             $('.predefinedrolename').html(role['title'] + " (" + rolename + ")");
 
