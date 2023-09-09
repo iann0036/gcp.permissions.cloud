@@ -290,7 +290,7 @@ async function processReferencePage() {
                                 for (var map_permission of map['api'][map_service_name]['methods'][map_method_name]['permissions']) {
                                     if (map_permission['name'] == permission_name) {
                                         var map_method_base = map_method_name.split(".")[0];
-                                        used_by.push("<a href='https://gcp.permissions.cloud/api/" + map_method_base + "#" + map_method_name + "'>" + map_method_name + "</a>");
+                                        used_by.push("<a href='/api/" + map_method_base + "#" + map_method_name + "'>" + map_method_name + "</a>");
                                     }
                                 }
                             }
@@ -326,10 +326,21 @@ async function processReferencePage() {
                 description += ".";
             }
 
+            var iam_action_out = "-";
+            if (map['api'][method_name_parts[0]] && map['api'][method_name_parts[0]]['methods'] && map['api'][method_name_parts[0]]['methods'][method_name] && map['api'][method_name_parts[0]]['methods'][method_name]['permissions']) {
+                var iam_action = [];
+                for (var permission of map['api'][method_name_parts[0]]['methods'][method_name]['permissions']) {
+                    var map_permission_base = permission['name'].split(".")[0];
+                    iam_action.push("<a href='/iam/" + map_permission_base + "#" + permission['name'] + "'>" + permission['name'] + "</a>");
+                }
+                iam_action_out = iam_action.join("<br />");
+            }
+
             method_table_content += '<tr id="' + method_name + '">\
                 <td class="tx-medium"><span class="tx-color-03">' + method_name_parts.shift() + '.</span>' + method_name_parts.join(".") + '</td>\
                 <td class="tx-normal">' + description + '</td>\
                 <td class="tx-medium">' + method['versions'].join(", ") + '</td>\
+                <td class="tx-medium">' + iam_action_out + '</td>\
             </tr>';
 
             api_count += 1;
