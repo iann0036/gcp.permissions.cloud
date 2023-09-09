@@ -107,6 +107,9 @@ async function processReferencePage() {
     let predefinedroles_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/predefined_roles.json');
     let predefinedroles = await predefinedroles_data.json();
 
+    let map_data = await fetch('https://raw.githubusercontent.com/iann0036/iam-dataset/main/gcp/map.json');
+    let map = await map_data.json();
+
     $('#actions-table tbody').html('');
 
     methods.sort((a, b) => a['title'].toLowerCase() < b['title'].toLowerCase() ? -1 : 1)
@@ -279,8 +282,23 @@ async function processReferencePage() {
 
                 let parts = permission_name.split(".");
 
+                let used_by = [];
+                for (var map_service_name of Object.keys(api['map'])) {
+                    if (api['map'][map_service_name]['methods']) {
+                        for (var map_method_name of Object.keys(api['map'][map_service_name]['methods'])) {
+                            if (api['map'][map_service_name]['methods'][map_method_name]['permissions']) {
+                                for (var map_permission of api['map'][map_service_name]['methods'][map_method_name]['permissions']) {
+                                    var map_permission_base = map_permission['name'].split(".")[0];
+                                    used_by.push("<a href='https://gcp.permissions.cloud/api/" + map_permission_base + "#" + map_permission['name'] + "'>" + map_permission['name'] + "</a>");
+                                }
+                            }
+                        }
+                    }
+                }
+
                 actions_table_content += '<tr id="' + permission_name + '">\
                     <td class="tx-medium"><span class="tx-color-03">' + parts.shift() + '.</span>' + parts.join(".") + (tags['iam']['DataAccess'].includes(permission_name) ? ' <span class="badge badge-info">data access</span>' : '') + (tags['iam']['CredentialExposure'].includes(permission_name) ? ' <span class="badge badge-info">credentials exposure</span>' : '') + (tags['iam']['PrivEsc'].includes(permission_name) ? ' <span class="badge badge-warning">possible privesc</span>' : '') + (undocumented ? ' <span class="badge badge-danger">undocumented</span>' : '') + '</td>\
+                    <td class="tx-medium">' + used_by.join("<br />") + '</td>\
                     <td class="' + access_class + '">' + permission_level + '</td>\
                     <td class="tx-medium">' + predefined_roles.join("<br />") + '</td>\
                 </tr>';
