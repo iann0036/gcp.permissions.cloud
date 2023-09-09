@@ -288,8 +288,10 @@ async function processReferencePage() {
                         for (var map_method_name of Object.keys(map['api'][map_service_name]['methods'])) {
                             if (map['api'][map_service_name]['methods'][map_method_name]['permissions']) {
                                 for (var map_permission of map['api'][map_service_name]['methods'][map_method_name]['permissions']) {
-                                    var map_permission_base = map_permission['name'].split(".")[0];
-                                    used_by.push("<a href='https://gcp.permissions.cloud/api/" + map_permission_base + "#" + map_permission['name'] + "'>" + map_permission['name'] + "</a>");
+                                    if (map_permission['name'] == permission_name) {
+                                        var map_method_base = map_method_name.split(".")[0];
+                                        used_by.push("<a href='https://gcp.permissions.cloud/api/" + map_method_base + "#" + map_method_name + "'>" + map_method_name + "</a>");
+                                    }
                                 }
                             }
                         }
