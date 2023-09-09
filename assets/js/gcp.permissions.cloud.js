@@ -297,10 +297,14 @@ async function processReferencePage() {
                         }
                     }
                 }
+                var used_by_out = used_by.join("<br />");
+                if (used_by.length == 0) {
+                    used_by_out = "-";
+                }
 
                 actions_table_content += '<tr id="' + permission_name + '">\
                     <td class="tx-medium"><span class="tx-color-03">' + parts.shift() + '.</span>' + parts.join(".") + (tags['iam']['DataAccess'].includes(permission_name) ? ' <span class="badge badge-info">data access</span>' : '') + (tags['iam']['CredentialExposure'].includes(permission_name) ? ' <span class="badge badge-info">credentials exposure</span>' : '') + (tags['iam']['PrivEsc'].includes(permission_name) ? ' <span class="badge badge-warning">possible privesc</span>' : '') + (undocumented ? ' <span class="badge badge-danger">undocumented</span>' : '') + '</td>\
-                    <td class="tx-medium">' + used_by.join("<br />") + '</td>\
+                    <td class="tx-medium">' + used_by_out + '</td>\
                     <td class="' + access_class + '">' + permission_level + '</td>\
                     <td class="tx-medium">' + predefined_roles.join("<br />") + '</td>\
                 </tr>';
