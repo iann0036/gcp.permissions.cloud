@@ -327,13 +327,17 @@ async function processReferencePage() {
             }
 
             var iam_action_out = "-";
-            if (map['api'][method_name_parts[0]] && map['api'][method_name_parts[0]]['methods'] && map['api'][method_name_parts[0]]['methods'][method_name] && map['api'][method_name_parts[0]]['methods'][method_name]['permissions']) {
-                var iam_action = [];
-                for (var permission of map['api'][method_name_parts[0]]['methods'][method_name]['permissions']) {
-                    var map_permission_base = permission['name'].split(".")[0];
-                    iam_action.push("<a href='/iam/" + map_permission_base + "#" + permission['name'] + "'>" + permission['name'] + "</a>");
+            if (map['api'][method_name_parts[0]] && map['api'][method_name_parts[0]]['methods'] && map['api'][method_name_parts[0]]['methods'][method_name] && map['api'][method_name_parts[0]]['methods'][method_name]['permissions'] && Array.isArray(map['api'][method_name_parts[0]]['methods'][method_name]['permissions'])) {
+                if (map['api'][method_name_parts[0]]['methods'][method_name]['permissions'].length == 0) {
+                    iam_action_out = "<i>None required</i>";
+                } else {
+                    var iam_action = [];
+                    for (var permission of map['api'][method_name_parts[0]]['methods'][method_name]['permissions']) {
+                        var map_permission_base = permission['name'].split(".")[0];
+                        iam_action.push("<a href='/iam/" + map_permission_base + "#" + permission['name'] + "'>" + permission['name'] + "</a>");
+                    }
+                    iam_action_out = iam_action.join("<br />");
                 }
-                iam_action_out = iam_action.join("<br />");
             }
 
             method_table_content += '<tr id="' + method_name + '">\
