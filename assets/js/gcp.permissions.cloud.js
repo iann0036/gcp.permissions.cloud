@@ -290,7 +290,7 @@ async function processReferencePage() {
                 let predefined_roles = [];
                 let undocumented = false;
                 for (let predefined_role of permissions[permission_name]) {
-                    predefined_roles.push("<a href=\"/predefinedroles/" + predefined_role['id'] + "\">" + predefined_role['name'] + "</a> <span class=\"tx-color-03\">(" + predefined_role['id'] + ")</span>");
+                    predefined_roles.push("<a href=\"/predefinedroles/" + predefined_role['id'] + "\">" + predefined_role['name'].replace("roles/", "") + "</a> <span class=\"tx-color-03\">(" + predefined_role['id'] + ")</span>");
                     if (predefined_role['undocumented']) {
                         undocumented = true;
                     }
