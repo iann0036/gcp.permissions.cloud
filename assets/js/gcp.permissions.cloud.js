@@ -296,6 +296,10 @@ async function processReferencePage() {
                     }
                 }
 
+                if (permissions[permission_name].length == 0) {
+                    undocumented = true;
+                }
+
                 /*
                 if (privilege['description'].substr(privilege['description'].length-1) != "." && privilege['description'].length > 1) {
                     privilege['description'] += ".";
